@@ -1,5 +1,5 @@
 {
   "mongo": {
-    "connection": "mongodb://holt:nhy78UJM@ds041651.mongolab.com:41651/c8_technology_com"
+    "connection": "mongodb://holt:nhy78UJM@localhost:27017/symbility-test"
   }
 }

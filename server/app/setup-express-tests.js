@@ -2,7 +2,6 @@
 var rek = require('rekuire');
 var chai = require('chai');
 var sinon = require('sinon');
-var proxyquire =  require('proxyquire');
 
 var expect = chai.expect;
 var assert = chai.assert;
@@ -24,7 +23,6 @@ describe('setup-express', function() {
 
       fixture.initialize()
         .then(function(app) {
-          console.log(app);
           expect(app.route).to.not.be.undefined;
           expect(app.use).to.not.be.undefined;
 
@@ -39,7 +37,6 @@ describe('setup-express', function() {
 
         fixture.initialize()
           .then(function(app) {
-            console.log(app);
             expect(app.route).to.not.be.undefined;
             expect(app.use).to.not.be.undefined;
 
@@ -47,6 +44,6 @@ describe('setup-express', function() {
           })
           .catch(handleError);
       });
-
+    });
   });
 });

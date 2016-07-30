@@ -15,6 +15,6 @@ process.env.PORT = process.env.PORT || 3000;
 createServer
     .createServer()
     .then(function() {
-      console.log('self reported study api server running');
+      console.log('symbilitweet api server running');
     })
     .catch(errorHandling.handleError);
