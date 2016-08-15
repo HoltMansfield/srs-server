@@ -1,4 +1,6 @@
 var Promise = require('bluebird');
+var rek = require('rekuire');
+var mongoManager = rek('mongo-manager');
 
 var clearDb = function(mongoose, done) {
   function clearDB() {
@@ -9,12 +11,13 @@ var clearDb = function(mongoose, done) {
   }
 
   function reconnect() {
-    mongoose.connect('mongodb://localhost:27017/testC8', function (err) {
-    //mongoose.connect('mongodb://holt:nhy78UJM@ds041651.mongolab.com:41651/c8_technology_com', function (err) {
-      if (err) {
-        throw err;
-      }
+    // mongo manager connects to DB & reads in all models
+    mongoManager.connect()
+     .then(function() {
       return clearDB();
+    })
+    .catch(function() {      
+      throw err;
     });
   }
 

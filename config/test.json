@@ -1,5 +1,5 @@
 {
   "mongo": {
-    "connection": "mongodb://holt:nhy78UJM@localhost:27017/symbility-test"
+    "connection": "mongodb://localhost:27017/symbility-test"
   }
 }
