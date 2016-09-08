@@ -16,7 +16,7 @@ var clearDb = function(mongoose, done) {
      .then(function() {
       return clearDB();
     })
-    .catch(function() {      
+    .catch(function() {
       throw err;
     });
   }
@@ -42,13 +42,13 @@ var disconnect = function(mongoose, done) {
   return done();
 };
 
-var prepareNodeEnvironment = function() {
-  process.env.NODE_ENV = 'test';
-  process.env.nodeAppPath = process.env.PWD + '/server';
-
-  return process.env.nodeAppPath;
-};
+// var prepareNodeEnvironment = function() {
+//   process.env.NODE_ENV = 'test';
+//   process.env.nodeAppPath = process.env.PWD + '/server';
+//
+//   return process.env.nodeAppPath;
+// };
 
 module.exports.clearDb = clearDb;
 module.exports.disconnect = disconnect;
-module.exports.prepareNodeEnvironment = prepareNodeEnvironment;
+//module.exports.prepareNodeEnvironment = prepareNodeEnvironment;

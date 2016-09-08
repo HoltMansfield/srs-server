@@ -10,7 +10,7 @@ var assert = chai.assert;
 // System Under Test
 var fixture = rek('password-hasher');
 
-// require so we can stub
+// require so we can stub/spy
 var bcrypt = require('bcrypt-as-promised');
 
 describe('password-hasher', function() {
