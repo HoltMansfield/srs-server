@@ -23,14 +23,14 @@ describe('users-api', function() {
     mongoTestSetup.disconnect(mongoose, done);
   });
 
-  it('createUser returns user with ID', function() {
+  it('createUser returns user with ID', function(done) {
     var user = {
 
     };
 
     fixture.createUser(user)
       .then(function() {
-
+        done();
       })
       .catch(boastErrors.logToConsole);
   });

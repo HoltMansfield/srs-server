@@ -7,10 +7,11 @@ var Schema       = mongoose.Schema;
 var dbConnection;
 var models = {};
 var schema = {};
+var collectionsImported = false;
 
 var createCollection = function(file) {
   var modelName = file.replace('.js','');
-  var modulePath = './' +modelName;
+  var modulePath = './collections/' +modelName;
   var rawJson = require(modulePath);
 
   // create mongoose schema from definition
@@ -30,15 +31,19 @@ var createCollection = function(file) {
 };
 
 var importCollections = function() {
-  var srcpath = __dirname +'/collections';
+  if(!collectionsImported) {
+    var srcpath = __dirname +'/collections';
 
-  fs.readdirSync(srcpath).filter(function(file) {
-    createCollection(file);
-  });
+    fs.readdirSync(srcpath).filter(function(file) {
+      createCollection(file);
+    });
+
+    collectionsImported = true;
+  }
 };
 
 module.exports = {
   importCollections: importCollections,
   schema: schema,
-  model: model
+  models: models
 };
