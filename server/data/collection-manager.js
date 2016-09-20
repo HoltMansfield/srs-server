@@ -4,30 +4,17 @@ var path = require('path');
 var mongoose = require('mongoose');
 
 var Schema       = mongoose.Schema;
-var dbConnection;
-var models = {};
-var schema = {};
 var collectionsImported = false;
 
 var createCollection = function(file) {
   var modelName = file.replace('.js','');
   var modulePath = './collections/' +modelName;
-  var rawJson = require(modulePath);
 
-  // create mongoose schema from definition
-  var schema = mongoose.Schema(rawJson);
+  // require in the module for this collection
+  var modelModule = require(modulePath);
 
-  // create mongoose model
-  var model = mongoose.model(modelName, schema);
-
-  Promise.promisifyAll(model);
-  Promise.promisifyAll(model.prototype); // there are functions also exposed on the prototype that we want to promisify
-
-  //aggregate this schema
-  schema[modelName] = schema;
-
-  // aggregate this model
-  models[modelName] = model;
+  // register the schema with mongoose
+  modelModule.register();
 };
 
 var importCollections = function() {
@@ -44,6 +31,4 @@ var importCollections = function() {
 
 module.exports = {
   importCollections: importCollections,
-  schema: schema,
-  models: models
 };

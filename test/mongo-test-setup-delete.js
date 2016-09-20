@@ -18,28 +18,17 @@ function connect(resolve, reject, mongoose) {
   });
 }
 
-function checkState(resolve, reject, mongoose) {
-  switch (mongoose.connection.readyState) {
-  case 0:
-    connect(resolve, reject, mongoose);
-    break;
-  case 1:
-    clearDB(resolve, reject, mongoose);
-    break;
-  default:
-    process.nextTick(function() {
-      checkState(resolve, reject, mongoose);
-    });
-  }
-}
-
 var clearDb = function(mongoose) {
   return new Promise(function(resolve, reject) {
-      checkState(resolve, reject, mongoose);
+    if(!mongoose.connection.readyState) {
+      connect(resolve, reject, mongoose);
+    } else {
+      clearDB(resolve, reject, mongoose);
+    }
   });
 };
 
-var disconnect = function(mongoose, done) {
+var disconnect = function(mongoose) {
   mongoose.disconnect();
 
   return done();

@@ -5,10 +5,12 @@
   "main": "server/app/start-server.js",
   "scripts": {
     "test": "mocha 'server/**/*tests.js' --require test/mocha-prepare --reporter spec",
-    "test-debug": "mocha 'server/**/*tests.js' --debug-brk --reporter spec",
+    "test-debug": "mocha 'server/**/*tests.js' --debug-brk --require test/mocha-prepare --reporter spec",
     "start": "node ./server/app/start-server.js",
     "mon": "nodemon /server/app/start-server.js",
-    "d": "node-debug ./server/app/start-server.js"
+    "d": "node-debug ./server/app/start-server.js",
+    "m": "mocha 'server/data/crypto/password-hasher-tests.js' --require test/mocha-prepare --reporter spec",
+    "md": "mocha 'server/data/crypto/password-hasher-tests.js' --debug-brk --require test/mocha-prepare --reporter spec"
   },
   "license": "MIT",
   "repository": {
@@ -28,7 +30,7 @@
     "express": "^4.14.0",
     "express-jwt": "^3.4.0",
     "mongo": "^0.1.0",
-    "mongoose": "^4.5.5",
+    "mongoose": "^4.6.0",
     "path": "^0.12.7",
     "rekuire": "^0.1.9",
     "server": "0.0.3",

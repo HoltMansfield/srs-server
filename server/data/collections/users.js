@@ -1,15 +1,23 @@
-var mongoose     = require('mongoose');
-var mongooseSchema       = mongoose.Schema;
+/* all the models in the collections folder get processed for registration by collection-manager.js */
 
-var schema  =  {
-    dateCreated: { type: Date, default: Date.now },
-    email: { type: String, required: true, unique: true },
-    salt: { type: String },
-    password: { type: String },
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-    first: { type: String },
-    last: { type: String },
-    avatar: { type: String },
-}
+var register = function() {
+  // define schema
+  var schema  = new Schema({
+      dateCreated: { type: Date, default: Date.now },
+      email: { type: String, required: true, unique: true },
+      salt: { type: String },
+      password: { type: String },
 
-module.exports = schema;
+      first: { type: String },
+      last: { type: String },
+      avatar: { type: String },
+  });
+
+  // register the schema with mongoose to 'create' a model
+  mongoose.model('User', schema);
+};
+
+module.exports.register = register;

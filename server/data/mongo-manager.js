@@ -11,16 +11,16 @@ var connect = function(app) {
     collections.importCollections();
 
     // Use bluebird
-    var options = { promiseLibrary: Promise };
+    mongoose.Promise = Promise;
 
     // make the async call to 'connect'
-    var db = mongoose.createConnection(config.mongo.connection, options);
+    var connection = mongoose.connect(config.mongo.connection).connection;
 
     // this is only called if we don't handle the error in the callback to an operation
-    db.on('error', console.error.bind(console, 'unhandled DB error:'));
+    connection.on('error', console.error.bind(console, 'unhandled DB error:'));
 
     // resolve the promise once connected to DB Server
-    db.once('open', function callback() {
+    connection.once('open', function callback() {
         resolve(app);
     });
   });
