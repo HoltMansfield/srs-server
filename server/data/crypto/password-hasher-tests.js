@@ -3,6 +3,7 @@ var rek = require('rekuire');
 var chai = require('chai');
 var sinon = require('sinon');
 var boastErrors = require('boast-errors');
+var bcrypt = require('bcrypt-as-promised');
 
 var expect = chai.expect;
 var assert = chai.assert;
@@ -77,6 +78,25 @@ describe('password-hasher', function() {
       expect(fixture.comparePassword.bind(fixture, undefined, 'salt-value', 'hashedPassword-value')).to.throw();
       expect(fixture.comparePassword.bind(fixture, 'password-value', undefined, 'hashedPassword-value')).to.throw();
       expect(fixture.comparePassword.bind(fixture, 'password-value', 'salt-value', undefined)).to.throw();
+    }));
+  });
+
+  describe('hashPassword', function() {
+    it('should call bcrypt to hash the users password with an existing salt', sinon.test(function(done) {
+      var bcryptHashSpy = this.spy(bcrypt, 'hash');
+      var password = 'clear-text';
+
+      bcrypt.genSalt()
+              .then(salt => {
+                fixture.hashPassword(salt, password)
+                  .then(function(hashedPassword) {
+                    assert.isDefined(hashedPassword);
+                    sinon.assert.callCount(bcryptHashSpy, 1);
+
+                    done();
+                  })
+              })
+              .catch(boastErrors.logToConsole);;
     }));
   });
 });

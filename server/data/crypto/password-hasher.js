@@ -39,5 +39,6 @@ var comparePassword = function(password, salt, hashedPasswordFromDb) {
 
 module.exports = {
   createPassword: createPassword,
-  comparePassword: comparePassword
+  comparePassword: comparePassword,
+  hashPassword: hashPassword
 }

@@ -24,19 +24,22 @@ describe('users-api', function() {
   var testUser; var testUserPassword = 'test-user-password';
 
   var createTestUser = function(user) {
-    return fixture.createUser(user);
+    return fixture.create(user);
   };
 
   beforeEach(function (done) {
     testUser = {
       email: 'beforeEach-created-user@test.com',
-      password: testUserPassword
+      password: testUserPassword,
+      first: 'first-name-test-value'
     };
 
     mongoTestSetup.clearDb(mongoose)
                     .then(() => createTestUser(testUser))
                     .then(testUserFromDb => {
-                      testUser = testUserFromDb;
+                      //read in the ID only so we keep testUser as a POJO
+                      testUser.id = testUserFromDb.id;
+                      testUser.salt = testUser.salt;
                       done();
                     });
   });
@@ -54,7 +57,7 @@ describe('users-api', function() {
       password: clearTextPassword
     };
 
-    fixture.createUser(user)
+    fixture.create(user)
       .then(function(userFromDb) {
         expect(userFromDb.salt).to.be.defined;
         expect(userFromDb.password).to.not.equal(clearTextPassword);
@@ -79,12 +82,78 @@ describe('users-api', function() {
     // our beforeEach creates a test user we can query against
     var query = { _id: testUser.id };
 
-    fixture.findUser(query)
+    fixture.find(query)
       .then(function(foundUser) {
         expect(foundUser).to.be.defined;
         expect(foundUser.id).to.be.defined;
         expect(foundUser.id).to.equal(testUser.id);
         done();
+      })
+      .catch(boastErrors.logToConsole);
+  });
+
+  it('updates any fields on the user', function(done) {
+    // our beforeEach creates a test user we can query against
+    var updatedName = testUser.first +'-updated-value';
+    var udpatedPassword = 'new-password-value';
+
+    testUser.first = updatedName;
+    testUser.password = udpatedPassword;
+
+    // update the user
+    fixture.update(testUser)
+      .then(function() {
+        var query = { _id: testUser.id };
+
+        // fetch the user back from the DB
+        fixture.find(query)
+          .then(foundUser => {
+            expect(foundUser).to.be.defined;
+            expect(foundUser.first).to.be.defined;
+            expect(foundUser.first).to.equal(updatedName);
+            expect(foundUser.password).to.not.equal(udpatedPassword)
+            done();
+          });
+      })
+      .catch(boastErrors.logToConsole);
+  });
+
+  it('updates JUST the password field on the user', function(done) {
+    // our beforeEach creates a test user we can query against
+    var udpatedPassword = 'new-password-value';
+
+    testUser.password = udpatedPassword;
+
+    // update the user
+    fixture.updatePassword(testUser)
+      .then(function() {
+        var query = { _id: testUser.id };
+
+        // fetch the user back from the DB
+        fixture.find(query)
+          .then(foundUser => {
+            expect(foundUser).to.be.defined;
+            expect(foundUser.password).to.be.defined;
+            expect(foundUser.password).to.not.equal(udpatedPassword)
+            done();
+          });
+      })
+      .catch(boastErrors.logToConsole);
+  });
+
+  it('deletes the user', function(done) {
+    // our beforeEach creates a test user we can query against
+    var query = { _id: testUser.id };
+
+    fixture.delete(query)
+      .then(function() {
+
+        // fetch the user back from the DB
+        fixture.find(query)
+          .then(foundUser => {
+            expect(foundUser).to.not.be.defined;
+            done();
+          });
       })
       .catch(boastErrors.logToConsole);
   });

@@ -1,5 +1,7 @@
 var Promise = require('bluebird');
 var rek = require('rekuire');
+var R = require('ramda');
+
 var hasher = rek('password-hasher');
 
 var mongoose = require('mongoose');
@@ -20,11 +22,26 @@ var createUserInDb = function(createPasswordResult, user) {
     });
 };
 
-var createUser = function(user) {
+var create = function(user) {
   user.email = user.email.toLowerCase(); // the db can do case insensitive search but why incur the cost
 
   return hasher.createPassword(user.password)
     .then(createPasswordResult => createUserInDb(createPasswordResult, user));
+};
+
+var find = function(query) {
+  return User.findOne(query);
+};
+
+var update = function(user) {
+  // we don't ever update the password in this operation
+  delete user.password;
+
+  return User.findByIdAndUpdate(user.id, user);
+};
+
+var deleteDocument = function(query) {
+  return User.remove(query);
 };
 
 var authenticateUser = function(email, password) {
@@ -36,12 +53,17 @@ var authenticateUser = function(email, password) {
           });
 };
 
-var findUser = function(query) {
-  return User.findOne(query);
+var updatePassword = function(user) {
+  // in this operation we only update the password
+  return hasher.hashPassword(user.salt, user.password)
+                .then(hashedPasswordResult => User.findByIdAndUpdate(user.id, { $set: { password: hashedPasswordResult.hashedPassword }}));
 };
 
 module.exports = {
-  createUser: createUser,
+  create: create,
+  find: find,
+  update: update,
+  delete: deleteDocument,
   authenticateUser: authenticateUser,
-  findUser: findUser  
+  updatePassword: updatePassword
 };
