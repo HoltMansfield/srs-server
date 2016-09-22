@@ -5,6 +5,7 @@
   "main": "server/app/start-server.js",
   "scripts": {
     "test": "mocha 'server/**/*tests.js' --require test/mocha-prepare --reporter spec",
+    "test-watch": "mocha 'server/**/*tests.js' --require test/mocha-prepare --reporter spec --watch",
     "test-debug": "mocha 'server/**/*tests.js' --debug-brk --require test/mocha-prepare --reporter spec",
     "start": "node ./server/app/start-server.js",
     "mon": "nodemon /server/app/start-server.js",

@@ -1,7 +1,7 @@
 var Promise = require('bluebird');
 var rek = require('rekuire');
 var setupExpress = rek('setup-express');
-var routeLoader = rek('load-routes');
+var routeLoader = rek('auto-load-routes');
 var mongoManager = rek('mongo-manager');
 var errorHandling  = rek('error-handling');
 
