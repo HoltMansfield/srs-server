@@ -25,6 +25,7 @@
     "beepbeep": "^1.2.0",
     "bluebird": "^3.4.1",
     "boast-errors": "0.0.1",
+    "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "chalk": "^1.1.3",
     "config": "^1.21.0",

@@ -15,8 +15,12 @@ var initialize = function(app, resolve, reject) {
   // make the async call to 'connect'
   var connection = mongoose.connect(config.mongo.connection).connection;
 
-  // this is only called if we don't handle the error in the callback to an operation
-  connection.on('error', console.error.bind(console, 'unhandled DB error:'));
+  if(!connection._events) {
+    // error handler is not already setup (this is only relevant in test scenarios)
+
+    // this is only called if we don't handle the error in the callback to an operation
+    connection.on('error', console.error.bind(console, 'unhandled DB error:'));
+  }
 
   // resolve the promise once connected to DB Server
   connection.once('open', function callback() {
@@ -35,6 +39,15 @@ var connect = function(app) {
   });
 };
 
+var disconnect = function() {
+  return new Promise((resolve, reject) => {
+    mongoose.disconnect(() => {
+      resolve(true);
+    });
+  });
+};
+
 module.exports = {
-  connect: connect
+  connect: connect,
+  disconnect: disconnect
 };

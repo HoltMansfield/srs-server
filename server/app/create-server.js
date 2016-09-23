@@ -10,8 +10,8 @@ var doInitalization = function() {
   return setupExpress
           .initialize()
           .then(setupExpress.preRoutesInitalization)
-          .then(routeLoader.createRoutes)
           .then(mongoManager.connect)
+          .then(routeLoader.createRoutes)
           .then(setupExpress.postRoutesInitalization)
           .then(setupExpress.listen)
           .catch(errorHandling.handleError);

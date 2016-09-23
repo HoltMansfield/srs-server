@@ -40,7 +40,8 @@ var clearDb = function(mongoose) {
 };
 
 var disconnect = function(mongoose, done) {
-  mongoose.disconnect(done);
+  mongoManager.disconnect()
+    .then(() => done());
 };
 
 module.exports = {

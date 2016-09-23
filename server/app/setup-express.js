@@ -2,6 +2,7 @@ var Promise = require('bluebird');
 var rek = require('rekuire');
 var express    = require('express');
 var expressJwt = require('express-jwt');
+var bodyParser = require('body-parser')
 var errorHandling  = rek('error-handling');
 
 // the first method called during server startup
@@ -13,21 +14,23 @@ var initialize = function() {
   });
 };
 
-// Middleware that needs to be configured BEFIRE routes are created
+// Middleware that needs to be configured BEFORE routes are created
 var preRoutesInitalization = function(app) {
     return new Promise(function(resolve, reject) {
-        // parse all urls for JWT except route included in 'path' below
-        app.use(expressJwt({ secret: 'toDo: use cert'})
-                            .unless({
-                            path:
-                            [
-                                { url: '/api/admins/login', methods: ['POST']  },
-                                { url: '/api/users', methods: ['POST']  },
-                                { url: '/', methods: ['GET']  },
-                            ],
-                            }));
+      // parse application/json
+      app.use(bodyParser.json())
+      
+      // parse all urls for JWT except routes included in 'path' below
+      app.use(expressJwt({ secret: 'toDo: use cert'})
+                          .unless({
+                          path:
+                          [
+                              // a user who is not logged in needs to be able to create an account
+                              { url: '/api/users', methods: ['POST']  }
+                          ],
+                          }));
 
-        resolve(app);
+      resolve(app);
     });
 };
 

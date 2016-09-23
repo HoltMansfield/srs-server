@@ -10,14 +10,9 @@ var mongoTestSetup = rek('mongo-test-setup');
 var expect = chai.expect;
 var assert = chai.assert;
 
-var collections = rek('collection-manager');
-
-// test fixture requires user model
-collections.importCollections();
-var User = mongoose.model('User');
 
 // System Under Test
-var fixture = rek('users-api');
+var fixture; // require this after the Model is registered
 
 
 describe('users-api', function() {
@@ -35,11 +30,15 @@ describe('users-api', function() {
     };
 
     mongoTestSetup.clearDb(mongoose)
-                    .then(() => createTestUser(testUser))
+                    .then(() => {
+                      fixture = rek('users-api');
+                      return createTestUser(testUser);
+                    })
                     .then(testUserFromDb => {
                       //read in the ID only so we keep testUser as a POJO
                       testUser.id = testUserFromDb.id;
                       testUser.salt = testUser.salt;
+
                       done();
                     });
   });
