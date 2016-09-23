@@ -68,16 +68,17 @@ var runTests = function(server) {
       first: 'first-name-test-value'
     };
 
-    it('should post a user and recieve a usable JWT', function(done) {
+    it('should post a user and receive a usable JWT', function(done) {
       request(server)
         .post(baseUrl)
         .send(testUser)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(function(err, res){
-          var userFromServer = res.body;
+        .end((err, res) => {
+          var responseBody = res.body;
 
-          expect(userFromServer._id).to.be.defined;
+          expect(responseBody).to.have.property('user');
+          expect(responseBody).to.have.property('jwt');
 
           if (err) {
             console.log(JSON.stringify(err));
