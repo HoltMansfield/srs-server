@@ -29,7 +29,7 @@ module.exports.createServerOnce = function() {
     // return it
     return Promise.resolve(server);
   } else {
-    // serer has not been created, create it now
+    // server has not been created, create it now
     return doCreateServerOnce();
-  }  
+  }
 };

@@ -8,16 +8,22 @@ var ignore = [
 ];
 
 var checkRoute = function(file) {
-  var rc = false;
+  var shouldImportRoute = false;
 
-  // path has a .js extension ie it's not a folder
-  if(file && file.indexOf('.js') != -1) {
-    if(!ignore.find(ignorePath => ignorePath === file)) {
-      rc = true;
-    }
+  // file is not null
+  if(file
+    // path has a .js extension ie it's not a folder
+    && file.indexOf('.js') != -1
+    // file is not a test suite
+    && file.indexOf('-tests.js') === -1
+    // file is not in array of ignorePaths
+    && !ignore.find(ignorePath => ignorePath === file))
+  {
+    // all is well, read in these routes
+    shouldImportRoute = true;
   }
 
-  return rc;
+  return shouldImportRoute;
 };
 
 var importRoutes = function(file, app) {
