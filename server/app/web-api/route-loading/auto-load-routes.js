@@ -2,10 +2,6 @@ var Promise = require('bluebird');
 var rek = require('rekuire');
 var fs = require('fs');
 
-var ignore = [
-  'auto-load-routes',
-  'auto-load-routes-tests'
-];
 
 var checkRoute = function(file) {
   var shouldImportRoute = false;
@@ -15,9 +11,7 @@ var checkRoute = function(file) {
     // path has a .js extension ie it's not a folder
     && file.indexOf('.js') != -1
     // file is not a test suite
-    && file.indexOf('-tests.js') === -1
-    // file is not in array of ignorePaths
-    && !ignore.find(ignorePath => ignorePath === file))
+    && file.indexOf('-tests.js') === -1)
   {
     // all is well, read in these routes
     shouldImportRoute = true;

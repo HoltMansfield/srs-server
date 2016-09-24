@@ -11,6 +11,7 @@ var assert = chai.assert;
 
 var createServerOnce = rek('create-server-once');
 var mongoTestSetup = rek('mongo-test-setup');
+var supertestTestSetup = rek('supertest-test-setup');
 
 
 describe('express-app', function() {
@@ -33,6 +34,7 @@ var runTests = function(server) {
     var users; // retain user data created in beforeEach
     var jwt;  // jwt needed for hitting secured endpoints
     var usersApi; // we can't require in the usersApi module until the mongoose model is registered
+    var apiUser; // the authenticated user for testing secure endpoints
 
     beforeEach(function (done) {
       mongoTestSetup.clearDb(mongoose)
@@ -40,10 +42,21 @@ var runTests = function(server) {
           usersApi = rek('users-api'); // now that collections are imported require in userApi
           users = []; //re-initalize and clear our array of users
 
+          // create a test user for querying against
           createTestUser()
             .then(newUser => {
               users.push(newUser);
-              done();
+              // create a user for authenticating with API
+              supertestTestSetup.createTestUserAndToken(server)
+                .then(userAndToken => {
+                  expect(userAndToken).to.have.property('user');
+                  expect(userAndToken).to.have.property('jwt');
+
+                  jwt = userAndToken.jwt;
+                  apiUser = userAndToken.user;
+
+                  done();
+                });
             });
         });
     });
@@ -62,52 +75,8 @@ var runTests = function(server) {
       return usersApi.create(testUser);
     };
 
-    var testUser = {
-      email: 'post-user-created-user@test.com',
-      password: 'password-value',
-      first: 'first-name-test-value'
-    };
-
-    it('should post a user and receive a usable JWT', function(done) {
-      request(server)
-        .post(baseUrl)
-        .send(testUser)
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end((err, res) => {
-          var responseBody = res.body;
-
-          expect(responseBody).to.have.property('user');
-          expect(responseBody).to.have.property('jwt');
-
-          if (err) {
-            console.log(JSON.stringify(err));
-            throw err;
-          }
-          done();
-        });
+    it('should be obvious', function() {
+      expect('derp').to.be.defined;
     });
-
-    // it('should fetch a user using a mongo query', function(done) {
-    //   request(server)
-    //     .post(baseUrl +'/query')
-    //     //.set('Authorization', 'Bearer ' +jwt)
-    //     .send({
-    //       email: users[0].email.toLowerCase() // downside of lower-caseing emails is client code needs to do this also
-    //     })
-    //     .expect('Content-Type', /json/)
-    //     .expect(200)
-    //     .end(function(err, res){
-    //       var userFromServer = res.body[0];
-    //
-    //       expect(userFromServer._id).to.equal(admins[0].id);
-    //
-    //       if (err) {
-    //         console.log(JSON.stringify(err));
-    //         throw err;
-    //       }
-    //       done();
-    //     });
-    // });
   });
 };
