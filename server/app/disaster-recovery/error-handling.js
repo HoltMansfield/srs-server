@@ -33,5 +33,6 @@ var errorHandler = function(err) {
 };
 
 module.exports = {
-  errorHandler: errorHandler
+  errorHandler: errorHandler,
+  requestErrorHandler: requestErrorHandler
 };
