@@ -30,7 +30,7 @@ var create = function(user) {
 };
 
 var find = function(query) {
-  return User.findOne(query);
+  return User.find(query);
 };
 
 var update = function(user) {

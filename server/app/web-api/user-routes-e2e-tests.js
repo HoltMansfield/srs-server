@@ -75,29 +75,28 @@ var runTests = function(server) {
       return usersApi.create(testUser);
     };
 
-// it('maz', function() {
-//
-// });
-    // it('should fetch a user using a mongo query', function(done) {
-    //   request(server)
-    //     .post(baseUrl +'/query')
-    //     .set('Authorization', 'Bearer ' +jwt)
-    //     .send({
-    //       email: users[0].email
-    //     })
-    //     .expect('Content-Type', /json/)
-    //     .expect(200)
-    //     .end(function(err, res){
-    //       var userFromServer = res.body[0];
-    //
-    //       expect(userFromServer._id).to.equal(users[0].id);
-    //
-    //       if (err) {
-    //         console.log(JSON.stringify(err));
-    //         throw err;
-    //       }
-    //       done();
-    //     });
-    // });
+    it('should fetch a user using a mongo query', function(done) {
+      var query = {
+          email: users[0].email.toLowerCase()
+      };
+
+      request(server)
+        .post(baseUrl +'/query')
+        .set('Authorization', 'Bearer ' +jwt)
+        .send(query)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function(err, res){
+          var userFromServer = res.body[0];
+
+          expect(userFromServer._id).to.equal(users[0].id);
+
+          if (err) {
+            console.log(JSON.stringify(err));
+            throw err;
+          }
+          done();
+        });
+    });
   });
 };

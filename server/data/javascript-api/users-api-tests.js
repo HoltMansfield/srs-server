@@ -82,10 +82,10 @@ describe('users-api', function() {
     var query = { _id: testUser.id };
 
     fixture.find(query)
-      .then(function(foundUser) {
-        expect(foundUser).to.be.defined;
-        expect(foundUser.id).to.be.defined;
-        expect(foundUser.id).to.equal(testUser.id);
+      .then(function(foundUsers) {
+        expect(foundUsers[0]).to.be.defined;
+        expect(foundUsers[0].id).to.be.defined;
+        expect(foundUsers[0].id).to.equal(testUser.id);
         done();
       })
       .catch(boastErrors.logToConsole);
@@ -106,11 +106,11 @@ describe('users-api', function() {
 
         // fetch the user back from the DB
         fixture.find(query)
-          .then(foundUser => {
-            expect(foundUser).to.be.defined;
-            expect(foundUser.first).to.be.defined;
-            expect(foundUser.first).to.equal(updatedName);
-            expect(foundUser.password).to.not.equal(udpatedPassword)
+          .then(foundUsers => {
+            expect(foundUsers).to.be.defined;
+            expect(foundUsers[0].first).to.be.defined;
+            expect(foundUsers[0].first).to.equal(updatedName);
+            expect(foundUsers[0].password).to.not.equal(udpatedPassword)
             done();
           });
       })
