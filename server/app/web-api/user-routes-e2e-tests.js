@@ -75,8 +75,29 @@ var runTests = function(server) {
       return usersApi.create(testUser);
     };
 
-    it('should be obvious', function() {
-      expect('derp').to.be.defined;
-    });
+// it('maz', function() {
+//
+// });
+    // it('should fetch a user using a mongo query', function(done) {
+    //   request(server)
+    //     .post(baseUrl +'/query')
+    //     .set('Authorization', 'Bearer ' +jwt)
+    //     .send({
+    //       email: users[0].email
+    //     })
+    //     .expect('Content-Type', /json/)
+    //     .expect(200)
+    //     .end(function(err, res){
+    //       var userFromServer = res.body[0];
+    //
+    //       expect(userFromServer._id).to.equal(users[0].id);
+    //
+    //       if (err) {
+    //         console.log(JSON.stringify(err));
+    //         throw err;
+    //       }
+    //       done();
+    //     });
+    // });
   });
 };

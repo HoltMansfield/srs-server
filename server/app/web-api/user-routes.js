@@ -2,6 +2,7 @@ var jwt = require('jsonwebtoken');
 var rek = require('rekuire');
 
 var usersApi = rek('users-api');
+var errorHandling = rek('error-handling');
 
 var createRoutes = function(app) {
   var baseUrl = '/api/users';
@@ -19,14 +20,10 @@ var createRoutes = function(app) {
       });
   });
 
-  // maps directly to mongo.find()
   app.post(baseUrl +'/query', (req, res, next) => {
     usersApi.find(req.body)
-      .then(data => res.json(data))/// HHH create a method for this res(json)
-      //HHH add method in error-handling for returning an error
-      .catch((err) => {
-        return next(err);
-      });
+      .then(data => res.json(data))
+      .catch((err) => errorHandling(err, req, res));
   });
 
 };

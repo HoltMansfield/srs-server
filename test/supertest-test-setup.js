@@ -31,6 +31,7 @@ var runTests = function(resolve, reject, server) {
         reject(err);
       }
 
+      // beforeEach in user-routes-e2e-tests.js does a weak assertion on this response
       resolve(responseBody);
     });
 };

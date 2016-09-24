@@ -2,7 +2,7 @@ var rek = require('rekuire');
 
 var consoleMessages = rek('console-messages');
 
-module.exports.requestErrorHandler = function(err, req, res, next) {
+var requestErrorHandler = function(err, req, res) {
   var validationErrors = null;
 
   if(err && err.errors) {
@@ -28,6 +28,10 @@ module.exports.requestErrorHandler = function(err, req, res, next) {
   consoleMessages.error(err.message);
 };
 
-module.exports.errorHandler = function(err) {
+var errorHandler = function(err) {
   consoleMessages.error(err);
+};
+
+module.exports = {
+  errorHandler: errorHandler
 };
