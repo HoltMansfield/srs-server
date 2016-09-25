@@ -14,8 +14,8 @@ var mongoTestSetup = rek('mongo-test-setup');
 var supertestTestSetup = rek('supertest-test-setup');
 
 
-describe('express-app', function() {
-  it('should load without errors', function(done) {
+describe('express-app', () => {
+  it('should load without errors', done => {
     // start the app
     createServerOnce
         .createServerOnce()
@@ -36,7 +36,7 @@ var runTests = function(server) {
     var usersApi; // we can't require in the usersApi module until the mongoose model is registered
     var apiUser; // the authenticated user for testing secure endpoints
 
-    beforeEach(function (done) {
+    beforeEach(done => {
       mongoTestSetup.clearDb(mongoose)
         .then(() => {
           usersApi = rek('users-api'); // now that collections are imported require in userApi
@@ -46,17 +46,10 @@ var runTests = function(server) {
           createTestUser()
             .then(newUser => {
               users.push(newUser);
-              // create a user for authenticating with API
-              supertestTestSetup.createTestUserAndToken(server)
-                .then(userAndToken => {
-                  expect(userAndToken).to.have.property('user');
-                  expect(userAndToken).to.have.property('jwt');
 
-                  jwt = userAndToken.jwt;
-                  apiUser = userAndToken.user;
-
-                  done();
-                });
+              // create an API user for hitting secure endpoints
+              createApiUser()
+                .then(done);
             });
         });
     });
@@ -75,7 +68,19 @@ var runTests = function(server) {
       return usersApi.create(testUser);
     };
 
-    it('should fetch a user using a mongo query', function(done) {
+    var createApiUser = function() {
+      // create a user for authenticating with API
+      return supertestTestSetup.createTestUserAndToken(server)
+        .then(userAndToken => {
+          expect(userAndToken).to.have.property('user');
+          expect(userAndToken).to.have.property('jwt');
+
+          jwt = userAndToken.jwt;
+          apiUser = userAndToken.user;
+        });
+    };
+
+    it('should fetch a user using a mongo query', done => {
       var query = {
           email: users[0].email.toLowerCase()
       };
@@ -86,7 +91,7 @@ var runTests = function(server) {
         .send(query)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(function(err, res){
+        .end((err, res) => {
           var userFromServer = res.body[0];
 
           expect(userFromServer._id).to.equal(users[0].id);
@@ -99,7 +104,7 @@ var runTests = function(server) {
         });
     });
 
-    it('should update a user', function(done) {
+    it('should update a user', done => {
       var newFirstNameValue = 'update-first-name-value';;
       users[0].first = newFirstNameValue;
 
@@ -109,7 +114,7 @@ var runTests = function(server) {
         .send(users[0])
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(function(err, res) {
+        .end((err, res) => {
           var userFromServer = res.body;
 
           expect(userFromServer.first).to.equal(newFirstNameValue);
@@ -134,7 +139,7 @@ var runTests = function(server) {
         .send(query)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(function(err, res) {
+        .end((err, res) => {
           if (err) {
             console.log(JSON.stringify(err));
             throw err;
