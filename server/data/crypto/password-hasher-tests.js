@@ -58,7 +58,7 @@ describe('password-hasher', function() {
         .catch(boastErrors.logToConsole);
     });
 
-    it('should return FALSE when the user enters an INVALID password', function(done) {
+    it('should return FALSE when the user enters an INVALID password', done => {
       var clearTextPassword = 'mock-password';
 
       fixture.createPassword(clearTextPassword)

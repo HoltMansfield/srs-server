@@ -13,7 +13,7 @@ var fixture = rek('auto-load-routes');
 
 
 describe('auto-load-routes', function() {
-  it('reads in all routes in web-api folder', sinon.test(function(done) {
+  it('reads in all routes in web-api folder', sinon.test(done => {
     var mockApp = {
       post: function() {},
       put: function() {},

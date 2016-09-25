@@ -18,7 +18,7 @@ var handleError = function(error) {
 
 describe('setup-express', function() {
   describe('initialize', function() {
-    it('should create an express app', function(done) {
+    it('should create an express app', done => {
       assert.isDefined(fixture);
 
       fixture.initialize()
@@ -32,7 +32,7 @@ describe('setup-express', function() {
     });
 
     describe('preRoutesInitalization', function() {
-      it('should create an express app', function(done) {
+      it('should create an express app', done => {
         assert.isDefined(fixture);
 
         fixture.initialize()

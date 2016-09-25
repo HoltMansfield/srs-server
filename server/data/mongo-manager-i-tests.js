@@ -18,7 +18,7 @@ describe('mongo-manager', function() {
 
     // It requies a mongodb instance and a correct connection string in config/test.json
 
-    it('should resolve promise when open callback fires', sinon.test(function(done) {
+    it('should resolve promise when open callback fires', sinon.test(done => {
       fixture.connect()
         .then(function(createPasswordResult) {
           done();

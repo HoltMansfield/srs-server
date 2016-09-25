@@ -15,7 +15,7 @@ describe('Create Server', function() {
     throw error;
   };
 
-  it('should have the following configuration', function(done) {
+  it('should have the following configuration', done => {
     assert.isDefined(fixture);
 
     fixture.createServerOnce()

@@ -47,7 +47,7 @@ describe('users-api', function() {
     mongoTestSetup.disconnect(mongoose, done);
   });
 
-  it('createUser returns user with ID', function(done) {
+  it('createUser returns user with ID', done => {
     var clearTextPassword = 'mama';
     var mixedCaseEmail = 'tesT@tesT.com';
 
@@ -66,7 +66,7 @@ describe('users-api', function() {
       .catch(boastErrors.logToConsole);
   });
 
-  it('authenticateUser returns true for valid attempt', function(done) {
+  it('authenticateUser returns true for valid attempt', done => {
     // our beforeEach creates a test user we can query against
 
     fixture.authenticateUser(testUser.email, testUserPassword)
@@ -77,7 +77,7 @@ describe('users-api', function() {
       .catch(boastErrors.logToConsole);
   });
 
-  it('findUser returns user for valid query', function(done) {
+  it('findUser returns user for valid query', done => {
     // our beforeEach creates a test user we can query against
     var query = { _id: testUser._id };
 
@@ -91,7 +91,7 @@ describe('users-api', function() {
       .catch(boastErrors.logToConsole);
   });
 
-  it('updates any fields on the user', function(done) {
+  it('updates any fields on the user', done => {
     // our beforeEach creates a test user we can query against
     var updatedName = testUser.first +'-updated-value';
     var udpatedPassword = 'new-password-value';
@@ -117,7 +117,7 @@ describe('users-api', function() {
       .catch(boastErrors.logToConsole);
   });
 
-  it('updates JUST the password field on the user', function(done) {
+  it('updates JUST the password field on the user', done => {
     // our beforeEach creates a test user we can query against
     var udpatedPassword = 'new-password-value';
 
@@ -140,7 +140,7 @@ describe('users-api', function() {
       .catch(boastErrors.logToConsole);
   });
 
-  it('deletes the user', function(done) {
+  it('deletes the user', done => {
     // our beforeEach creates a test user we can query against
     var query = { _id: testUser.id };
 
