@@ -12,7 +12,7 @@ var assert = chai.assert;
 var fixture = rek('auto-load-routes');
 
 
-describe('auto-load-routes', function() {
+describe('auto-load-routes', () => {
   it('reads in all routes in web-api folder', sinon.test(done => {
     var mockApp = {
       post: function() {},

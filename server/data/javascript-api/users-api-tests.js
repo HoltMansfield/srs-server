@@ -15,7 +15,7 @@ var assert = chai.assert;
 var fixture; // require this after the Model is registered
 
 
-describe('users-api', function() {
+describe('users-api', () => {
   var testUser; var testUserPassword = 'test-user-password';
 
   var createTestUser = function(user) {

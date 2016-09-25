@@ -29,7 +29,7 @@ describe('express-app', () => {
 });
 
 var runTests = function(server) {
-  describe('users-routes', function() {
+  describe('users-routes', () => {
     var baseUrl = '/api/users';
     var users; // retain user data created in beforeEach
     var jwt;  // jwt needed for hitting secured endpoints

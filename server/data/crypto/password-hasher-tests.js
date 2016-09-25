@@ -14,8 +14,8 @@ var fixture = rek('password-hasher');
 // require so we can stub/spy
 var bcrypt = require('bcrypt-as-promised');
 
-describe('password-hasher', function() {
-  describe('createPassword', function() {
+describe('password-hasher', () => {
+  describe('createPassword', () => {
     it('should call bcrypt to create a salt and to hash the users password', sinon.test(function(done) {
       var bcryptHashSpy = this.spy(bcrypt, 'hash');
       var bcryptSaltSpy = this.spy(bcrypt, 'genSalt');
@@ -41,7 +41,7 @@ describe('password-hasher', function() {
     }));
   });
 
-  describe('comparePassword', function() {
+  describe('comparePassword', () => {
     it('should return true when the user enters a valid password', function(done) {
       var clearTextPassword = 'mock-password';
 
@@ -81,7 +81,7 @@ describe('password-hasher', function() {
     }));
   });
 
-  describe('hashPassword', function() {
+  describe('hashPassword', () => {
     it('should call bcrypt to hash the users password with an existing salt', sinon.test(function(done) {
       var bcryptHashSpy = this.spy(bcrypt, 'hash');
       var password = 'clear-text';
