@@ -180,5 +180,37 @@ var runTests = function(server) {
         });
     });
 
+    it('should update a users password', done => {
+      var updatedPassword = clearTextPassword +'updated';
+      var updatePasswordAttempt = {
+          _id: users[0]._id,
+          password: updatedPassword,
+          salt: users[0].salt
+      };
+
+      // authenticate the user
+      request(server)
+        .post(baseUrl +'/update-password')
+        .set('Authorization', 'Bearer ' +jwt)
+        .send(updatePasswordAttempt)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            console.log(JSON.stringify(err));
+            throw err;
+          }
+
+          var updatedUser = res.body;
+
+          expect(updatedUser).to.be.defined;
+          expect(updatedUser.password).to.be.defined;
+          // need to assert hasher.hashPassword was called, & findByIdAndUpdate was called
+          expect(updatedUser.password).to.not.equal(updatedPassword);
+
+          done();
+        });
+    });
+
   });
 };

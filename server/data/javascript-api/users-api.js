@@ -37,7 +37,8 @@ var update = function(user) {
   // we don't ever update the password in this operation
   delete user.password;
 
-  return User.findByIdAndUpdate(user._id, user, { new: true }); // { new: true } will return the updated document
+  // { new: true } will return the updated document
+  return User.findByIdAndUpdate(user._id, user, { new: true });
 };
 
 var deleteDocument = function(query) {
@@ -53,10 +54,13 @@ var authenticateUser = function(authenticationAttempt) {
           });
 };
 
-var updatePassword = function(user) {
+var updatePassword = function(updatePasswordAttempt) {
   // in this operation we only update the password
-  return hasher.hashPassword(user.salt, user.password)
-                .then(hashedPasswordResult => User.findByIdAndUpdate(user.id, { $set: { password: hashedPasswordResult.hashedPassword }}));
+  return hasher.hashPassword(updatePasswordAttempt.salt, updatePasswordAttempt.password)
+                .then(hashedPasswordResult => {
+                  // { new: true } will return the updated document
+                  return User.findByIdAndUpdate(updatePasswordAttempt._id, { $set: { password: hashedPasswordResult.hashedPassword }}, { new: true })
+                });
 };
 
 module.exports = {
