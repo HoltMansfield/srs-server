@@ -98,5 +98,56 @@ var runTests = function(server) {
           done();
         });
     });
+
+    it('should update a user', function(done) {
+      var foundUser;
+      var query = {
+          email: users[0].email.toLowerCase()
+      };
+
+      // fetch a user for updating
+      request(server)
+        .post(baseUrl +'/query')
+        .set('Authorization', 'Bearer ' +jwt)
+        .send(query)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function(err, res){
+          foundUser = res.body[0];
+
+          expect(foundUser._id).to.equal(users[0].id);
+
+          if (err) {
+            console.log(JSON.stringify(err));
+            throw err;
+          }
+
+          // now update the user we just got from our API
+          updateUser(done);
+        });
+
+        var updateUser = function(done) {
+          var newFirstNameValue = 'update-first-name-value';;
+          foundUser.first = newFirstNameValue;
+
+          request(server)
+            .put(baseUrl)
+            .set('Authorization', 'Bearer ' +jwt)
+            .send(foundUser)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function(err, res) {
+              var userFromServer = res.body;
+
+              expect(userFromServer.first).to.equal(newFirstNameValue);
+
+              if (err) {
+                console.log(JSON.stringify(err));
+                throw err;
+              }
+              done();
+            });
+        };
+    });
   });
 };

@@ -15,7 +15,11 @@ var fixture = rek('auto-load-routes');
 describe('auto-load-routes', function() {
   it('reads in all routes in web-api folder', sinon.test(function(done) {
     var mockApp = {
-      post: function() {}
+      post: function() {},
+      put: function() {},
+      get: function() {},
+      delete: function() {},
+      patch: function() {}
     };
 
     var postSpy = sinon.spy(mockApp, 'post');

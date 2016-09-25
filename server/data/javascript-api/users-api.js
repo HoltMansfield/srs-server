@@ -37,7 +37,7 @@ var update = function(user) {
   // we don't ever update the password in this operation
   delete user.password;
 
-  return User.findByIdAndUpdate(user.id, user);
+  return User.findByIdAndUpdate(user._id, user, { new: true }); // { new: true } will return the updated document
 };
 
 var deleteDocument = function(query) {

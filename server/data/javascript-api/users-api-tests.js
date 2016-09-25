@@ -36,7 +36,7 @@ describe('users-api', function() {
                     })
                     .then(testUserFromDb => {
                       //read in the ID only so we keep testUser as a POJO
-                      testUser.id = testUserFromDb.id;
+                      testUser._id = testUserFromDb.id;
                       testUser.salt = testUser.salt;
 
                       done();
@@ -79,13 +79,13 @@ describe('users-api', function() {
 
   it('findUser returns user for valid query', function(done) {
     // our beforeEach creates a test user we can query against
-    var query = { _id: testUser.id };
+    var query = { _id: testUser._id };
 
     fixture.find(query)
       .then(function(foundUsers) {
         expect(foundUsers[0]).to.be.defined;
         expect(foundUsers[0].id).to.be.defined;
-        expect(foundUsers[0].id).to.equal(testUser.id);
+        expect(foundUsers[0].id).to.equal(testUser._id);
         done();
       })
       .catch(boastErrors.logToConsole);
@@ -102,7 +102,7 @@ describe('users-api', function() {
     // update the user
     fixture.update(testUser)
       .then(function() {
-        var query = { _id: testUser.id };
+        var query = { _id: testUser._id };
 
         // fetch the user back from the DB
         fixture.find(query)
