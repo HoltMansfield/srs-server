@@ -19,14 +19,16 @@ var preRoutesInitalization = function(app) {
     return new Promise(function(resolve, reject) {
       // parse application/json
       app.use(bodyParser.json())
-      
+
       // parse all urls for JWT except routes included in 'path' below
       app.use(expressJwt({ secret: 'toDo: use cert'})
                           .unless({
                           path:
                           [
                               // a user who is not logged in needs to be able to create an account
-                              { url: '/api/users', methods: ['POST']  }
+                              { url: '/api/users', methods: ['POST']  },
+                              // the actual login endpoint
+                              { url: '/api/users/authenticate', methods: ['POST']  },
                           ],
                           }));
 

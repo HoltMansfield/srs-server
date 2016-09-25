@@ -44,12 +44,12 @@ var deleteDocument = function(query) {
   return User.remove(query);
 };
 
-var authenticateUser = function(email, password) {
-  email = email.toLowerCase(); // the db can do case insensitive search but why incur the cost
+var authenticateUser = function(authenticationAttempt) {
+  authenticationAttempt.email = authenticationAttempt.email.toLowerCase(); // the db can do case insensitive search but why incur the cost
 
-  return User.findOne({ email: email })
+  return User.findOne({ email: authenticationAttempt.email })
           .then(userFromDb => {
-            return hasher.comparePassword(password, userFromDb.salt, userFromDb.password)
+            return hasher.comparePassword(authenticationAttempt.password, userFromDb.salt, userFromDb.password)
           });
 };
 

@@ -35,6 +35,7 @@ var runTests = function(server) {
     var jwt;  // jwt needed for hitting secured endpoints
     var usersApi; // we can't require in the usersApi module until the mongoose model is registered
     var apiUser; // the authenticated user for testing secure endpoints
+    var clearTextPassword = 'clear-text-password-value'; // retain the users password to test logging in
 
     beforeEach(done => {
       mongoTestSetup.clearDb(mongoose)
@@ -61,7 +62,7 @@ var runTests = function(server) {
     var createTestUser = function() {
       var testUser = {
         email: 'beforeEach-created-user@test.com',
-        password: 'password-value',
+        password: clearTextPassword,
         first: 'first-name-test-value'
       };
 
@@ -153,5 +154,31 @@ var runTests = function(server) {
             });
         });
     });
+
+    it('should authenticate a user', done => {
+      var loginAttempt = {
+          email: users[0].email.toLowerCase(),
+          password: clearTextPassword,
+      };
+
+      // authenticate the user
+      request(server)
+        .post(baseUrl +'/authenticate')
+        .send(loginAttempt)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            console.log(JSON.stringify(err));
+            throw err;
+          }
+
+          var responseValue = res.body;
+
+          expect(responseValue).to.equal(true);
+          done();
+        });
+    });
+
   });
 };

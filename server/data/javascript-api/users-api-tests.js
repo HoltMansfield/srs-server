@@ -69,7 +69,10 @@ describe('users-api', () => {
   it('authenticateUser returns true for valid attempt', done => {
     // our beforeEach creates a test user we can query against
 
-    fixture.authenticateUser(testUser.email, testUserPassword)
+    fixture.authenticateUser({
+        email: testUser.email,
+        password: testUserPassword
+      })
       .then(function(authenticationResult) {
         expect(authenticationResult).to.equal(true);
         done();

@@ -43,6 +43,20 @@ var createRoutes = function(app) {
       .catch((err) => errorHandling(err, req, res));
   });
 
+  // Login
+  app.post(baseUrl +'/authenticate', (req, res, next) => {
+    usersApi.authenticateUser(req.body)
+      .then(data => res.json(data))
+      .catch((err) => errorHandling(err, req, res));
+  });
+
+  // Update Password
+  app.post(baseUrl +'/update-password', (req, res, next) => {
+    usersApi.updatePassword(req.body)
+      .then(data => res.json(data))
+      .catch((err) => errorHandling(err, req, res));
+  });
+
 };
 
 module.exports = {
