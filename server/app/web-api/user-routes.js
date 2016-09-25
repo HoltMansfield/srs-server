@@ -36,6 +36,13 @@ var createRoutes = function(app) {
       .catch((err) => errorHandling(err, req, res));
   });
 
+  // Delete
+  app.delete(baseUrl, (req, res, next) => {
+    usersApi.delete(req.body)
+      .then(data => res.json(data))
+      .catch((err) => errorHandling(err, req, res));
+  });
+
 };
 
 module.exports = {

@@ -121,5 +121,32 @@ var runTests = function(server) {
           done();
         });
     });
+
+    it('should delete a user', done => {
+      var query = {
+          email: users[0].email.toLowerCase()
+      };
+
+      // delete the user
+      request(server)
+        .delete(baseUrl)
+        .set('Authorization', 'Bearer ' +jwt)
+        .send(query)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function(err, res) {
+          if (err) {
+            console.log(JSON.stringify(err));
+            throw err;
+          }
+
+          usersApi.find(query)
+            .then(foundUser => {
+              // assert that the user can't be found after deletion
+              expect(foundUser.length).to.equal(0);
+              done();
+            });
+        });
+    });
   });
 };
