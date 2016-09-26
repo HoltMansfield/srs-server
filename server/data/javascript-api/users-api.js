@@ -1,6 +1,5 @@
 var Promise = require('bluebird');
 var rek = require('rekuire');
-var R = require('ramda');
 
 var hasher = rek('password-hasher');
 
@@ -16,10 +15,7 @@ var createUserInDb = function(createPasswordResult, user) {
   var userModel = new User(user);
 
   // promise chain continues
-  return userModel.save()
-    .then(function(newUser) {
-      return newUser;
-    });
+  return userModel.save();
 };
 
 var create = function(user) {

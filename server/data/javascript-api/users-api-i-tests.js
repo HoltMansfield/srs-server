@@ -19,20 +19,22 @@ describe('users-api', () => {
   var testUser; var testUserPassword = 'test-user-password';
 
   var createTestUser = function(user) {
-    return fixture.create(user);
-  };
 
-  beforeEach(function (done) {
+                          fixture = rek('users-api');
+
     testUser = {
       email: 'beforeEach-created-user@test.com',
       password: testUserPassword,
       first: 'first-name-test-value'
     };
 
+    return fixture.create(user);
+  };
+
+  beforeEach(function (done) {
     mongoTestSetup.clearDb(mongoose)
                     .then(() => {
-                      fixture = rek('users-api');
-                      return createTestUser(testUser);
+                      return createTestUser();
                     })
                     .then(testUserFromDb => {
                       //read in the ID only so we keep testUser as a POJO
