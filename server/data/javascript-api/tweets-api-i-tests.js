@@ -96,19 +96,15 @@ describe('tweets-api', () => {
     .catch(boastErrors.logToConsole);
   });
 
-  // it('show a given user the tweets from the users they follow', function(done) {
-  //   var newTweet = {
-  //     tweetBody: 'Trumps hair applies for sovereign status'
-  //   };
-  //
-  //   fixture.create(newTweet)
-  //     .then(tweetFromDb => {
-  //       expect(tweetFromDb).to.be.defined;
-  //       expect(tweetFromDb._id).to.be.defined;
-  //       expect(tweetFromDb.tweetBody).to.be.defined;
-  //       expect(tweetFromDb.tweetBody).to.equal(newTweet.tweetBody);
-  //
-  //       done();
-  //     });
-  // });
+  it('show a given user the tweets from the users they follow', function(done) {
+    // get the tweet created in beforeEach
+
+    fixture.getTweetsForUser(users[0])
+      .then(tweetsFromDb => {
+        expect(tweetsFromDb).to.be.defined;
+        expect(tweetsFromDb.length).to.equal(1);
+
+        done();
+      });
+  });
 });
