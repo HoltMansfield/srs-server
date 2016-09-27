@@ -48,7 +48,7 @@ describe('tweets-api', () => {
         users.push(testUserFromDb);
 
         // establish the 'following' relationship
-        testFollower.following.push(testUser._id);
+        testFollower.following.push(testUserFromDb._id);
 
         return usersApi.create(testFollower)
           .then(testFollowerFromDb => {
@@ -103,6 +103,27 @@ describe('tweets-api', () => {
       .then(tweetsFromDb => {
         expect(tweetsFromDb).to.be.defined;
         expect(tweetsFromDb.length).to.equal(1);
+
+        done();
+      });
+  });
+
+  it('show a given user their followers', function(done) {
+    // get the followers for testUser create in beforeEach
+
+    /*
+      this test should be moved to the usersApi test suite
+      it's here as a basic sanity test that the data model is viable
+    */
+
+    // get all users that follow the testUser
+    var query = { following: users[0]._id };
+
+    usersApi.find(query)
+      .then(followersFromDb => {
+        expect(followersFromDb).to.be.defined;
+        expect(followersFromDb.length).to.equal(1);
+        expect(followersFromDb[0]._id.equals(users[1]._id));
 
         done();
       });
