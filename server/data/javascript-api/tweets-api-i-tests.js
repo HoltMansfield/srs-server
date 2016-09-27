@@ -12,28 +12,67 @@ var assert = chai.assert;
 
 
 // System Under Test
-var fixture; // require this after the Model is registered
+var fixture; // require this after the schema is registered
+var usersApi; // require this after the schema is registered
 
 
 describe('tweets-api', () => {
   var tweets;
+  var users;
 
   var createTestTweet = function() {
     var testTweet = {
-      tweetBody: 'Trump loses by largest margin in US History'
+      tweetBody: 'Trump loses by largest margin in US History',
+      postedBy: users[0]._id
     };
 
     return fixture.create(testTweet);
   };
 
+  var createTestUsers = function() {
+    var testUser = {
+      email: 'beforeEach-created-user@test.com',
+      password: 'testUser',
+      first: 'first-name-test-value'
+    };
+
+    var testFollower = {
+      email: 'beforeEach-created-follower@test.com',
+      password: 'testFollower',
+      first: 'first-name-test-value',
+      following: [] //need to initialize this to be able to push the testUser's _id
+    };
+
+    return usersApi.create(testUser)
+      .then(testUserFromDb => {
+        users.push(testUserFromDb);
+
+        // establish the 'following' relationship
+        testFollower.following.push(testUser._id);
+
+        return usersApi.create(testFollower)
+          .then(testFollowerFromDb => {
+            users.push(testFollowerFromDb);
+            return testFollowerFromDb;
+          });
+      });
+  };
+
+  var createTestData = function() {
+    return createTestUsers()
+      .then(createTestTweet);
+  };
+
   beforeEach(function (done) {
     tweets = []; // cleanup between tests
+    users = [];
 
     mongoTestSetup.clearDb(mongoose)
                     .then(() => {
                       fixture = rek('tweets-api');
+                      usersApi = rek('users-api');
 
-                      return createTestTweet();
+                      return createTestData();
                     })
                     .then(testTweetFromDb => {
                       tweets.push(testTweetFromDb);
@@ -42,19 +81,34 @@ describe('tweets-api', () => {
                     });
   });
 
-  it('creates a tweet', function(done) {
-    var newTweet = {
-      tweetBody: 'Trumps hair applies for sovereign status'
-    };
+  it('creates ands queries a tweet', function(done) {
+    // this test verifies the tweet we created in the beforeEach
+    var query = { _id: tweets[0]._id };
 
-    fixture.create(newTweet)
-      .then(tweetFromDb => {
-        expect(tweetFromDb).to.be.defined;
-        expect(tweetFromDb._id).to.be.defined;
-        expect(tweetFromDb.tweetBody).to.be.defined;
-        expect(tweetFromDb.tweetBody).to.equal(newTweet.tweetBody);
+    fixture.find(query)
+      .then(results => {
+        expect(results.length).to.equal(1);
+        // mongos solution for id comparison
+        expect(results[0]._id.equals(tweets[0]._id)).to.be.true;
 
         done();
-      });
+      })
+    .catch(boastErrors.logToConsole);
   });
+
+  // it('show a given user the tweets from the users they follow', function(done) {
+  //   var newTweet = {
+  //     tweetBody: 'Trumps hair applies for sovereign status'
+  //   };
+  //
+  //   fixture.create(newTweet)
+  //     .then(tweetFromDb => {
+  //       expect(tweetFromDb).to.be.defined;
+  //       expect(tweetFromDb._id).to.be.defined;
+  //       expect(tweetFromDb.tweetBody).to.be.defined;
+  //       expect(tweetFromDb.tweetBody).to.equal(newTweet.tweetBody);
+  //
+  //       done();
+  //     });
+  // });
 });

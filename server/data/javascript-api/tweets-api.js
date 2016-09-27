@@ -13,7 +13,22 @@ var create = function(tweet) {
   return tweetModel.save();
 };
 
+var getTweetsForUser = function(user) {
+  var userIds = user.following;
+  var query = { postedBy: { $in: userIds } };
+
+  return Tweet.find()
+    .then(foundTweets => {
+      return foundTweets;
+    });
+};
+
+var find = function(query) {
+  return Tweet.find(query);
+};
 
 module.exports = {
-  create: create
+  create: create,
+  find: find,
+  getTweetsForUser: getTweetsForUser
 };

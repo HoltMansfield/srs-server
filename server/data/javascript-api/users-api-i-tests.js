@@ -18,9 +18,9 @@ var fixture; // require this after the Model is registered
 describe('users-api', () => {
   var testUser; var testUserPassword = 'test-user-password';
 
-  var createTestUser = function(user) {
-
-                          fixture = rek('users-api');
+  var createTestUser = function() {
+    // now that our mongoose schemas are registered
+    fixture = rek('users-api');
 
     testUser = {
       email: 'beforeEach-created-user@test.com',
@@ -28,7 +28,7 @@ describe('users-api', () => {
       first: 'first-name-test-value'
     };
 
-    return fixture.create(user);
+    return fixture.create(testUser);
   };
 
   beforeEach(function (done) {

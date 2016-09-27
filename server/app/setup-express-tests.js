@@ -2,6 +2,7 @@
 var rek = require('rekuire');
 var chai = require('chai');
 var sinon = require('sinon');
+var boastErrors = require('boast-errors');
 
 var expect = chai.expect;
 var assert = chai.assert;
@@ -28,7 +29,7 @@ describe('setup-express', () => {
 
           done();
         })
-        .catch(handleError);
+        .catch(boastErrors.logToConsole);
     });
 
     describe('preRoutesInitalization', () => {
@@ -42,7 +43,7 @@ describe('setup-express', () => {
 
             done();
           })
-          .catch(handleError);
+          .catch(boastErrors.logToConsole);
       });
     });
   });
