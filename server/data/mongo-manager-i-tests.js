@@ -1,14 +1,14 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var sinon = require('sinon');
-var boastErrors = require('boast-errors');
+const rek = require('rekuire');
+const chai = require('chai');
+const sinon = require('sinon');
+const boastErrors = require('boast-errors');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
 // System Under Test
-var fixture = rek('mongo-manager');
+const fixture = rek('mongo-manager');
 
 
 describe('mongo-manager', () => {

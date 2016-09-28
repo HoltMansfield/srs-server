@@ -1,13 +1,13 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var boastErrors = require('boast-errors');
+const rek = require('rekuire');
+const chai = require('chai');
+const boastErrors = require('boast-errors');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
 // System Under Test
-var fixture = rek('create-server-once');
+const fixture = rek('create-server-once');
 
 describe('Create Server', () => {
   it('should have the following configuration', done => {

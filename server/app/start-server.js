@@ -1,5 +1,5 @@
 /*
-    This script is called directly to start the server
+    This script is called directly to start the server when we're running this as a webserver
 
     Test instances start the server by calling
     createServerOnce.createServerOnce()

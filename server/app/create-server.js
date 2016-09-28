@@ -1,12 +1,12 @@
-var Promise = require('bluebird');
-var rek = require('rekuire');
-var setupExpress = rek('setup-express');
-var routeLoader = rek('auto-load-routes');
-var mongoManager = rek('mongo-manager');
-var errorHandling  = rek('error-handling');
+const Promise = require('bluebird');
+const rek = require('rekuire');
+const setupExpress = rek('setup-express');
+const routeLoader = rek('auto-load-routes');
+const mongoManager = rek('mongo-manager');
+const errorHandling  = rek('error-handling');
 
 
-var doInitalization = function() {
+const doInitalization = function() {
   return setupExpress
           .initialize()
           .then(setupExpress.preRoutesInitalization)

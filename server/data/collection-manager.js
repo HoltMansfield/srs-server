@@ -1,29 +1,27 @@
-var Promise = require('bluebird');
-var fs = require('fs');
-var path = require('path');
-var mongoose = require('mongoose');
+const Promise = require('bluebird');
+const fs = require('fs');
+const path = require('path');
+const mongoose = require('mongoose');
 
-var Schema       = mongoose.Schema;
-var collectionsImported = false;
+const Schema       = mongoose.Schema;
+let collectionsImported = false;
 
-var createCollection = function(file) {
-  var modelName = file.replace('.js','');
-  var modulePath = './collections/' +modelName;
+const createCollection = function(file) {
+  const modelName = file.replace('.js','');
+  const modulePath = './collections/' +modelName;
 
   // require in the module for this collection
-  var modelModule = require(modulePath);
+  const modelModule = require(modulePath);
 
   // register the schema with mongoose
   modelModule.register();
 };
 
-var importCollections = function() {
+const importCollections = function() {
   if(!collectionsImported) {
-    var srcpath = __dirname +'/collections';
+    const srcpath = __dirname +'/collections';
 
-    fs.readdirSync(srcpath).filter(function(file) {
-      createCollection(file);
-    });
+    fs.readdirSync(srcpath).filter(file => createCollection(file));
 
     collectionsImported = true;
   }

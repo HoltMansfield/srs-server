@@ -1,11 +1,11 @@
-var Promise = require('bluebird');
-var rek = require('rekuire');
-var config = require('config');
-var mongoose = require('mongoose');
+const Promise = require('bluebird');
+const rek = require('rekuire');
+const config = require('config');
+const mongoose = require('mongoose');
 
-var collections = rek('collection-manager');
+const collections = rek('collection-manager');
 
-var initialize = function(app, resolve, reject) {
+const initialize = function(app, resolve, reject) {
   // make a synchronous call to import mongo models
   collections.importCollections();
 
@@ -13,7 +13,7 @@ var initialize = function(app, resolve, reject) {
   mongoose.Promise = Promise;
 
   // make the async call to 'connect'
-  var connection = mongoose.connect(config.mongo.connection).connection;
+  const connection = mongoose.connect(config.mongo.connection).connection;
 
   if(!connection._events) {
     // error handler is not already setup (this is only relevant in test scenarios)
@@ -28,7 +28,7 @@ var initialize = function(app, resolve, reject) {
   });
 };
 
-var connect = function(app) {
+const connect = function(app) {
   return new Promise(function(resolve, reject) {
     if(mongoose.connection.readyState) {
       // we are already connected
@@ -39,7 +39,7 @@ var connect = function(app) {
   });
 };
 
-var disconnect = function() {
+const disconnect = function() {
   return new Promise((resolve, reject) => {
     mongoose.disconnect(() => {
       resolve(true);
