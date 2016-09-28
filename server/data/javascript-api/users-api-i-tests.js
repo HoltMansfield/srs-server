@@ -59,7 +59,7 @@ describe('users-api', () => {
     };
 
     fixture.create(user)
-      .then(function(userFromDb) {
+      .then(userFromDb => {
         expect(userFromDb.salt).to.be.defined;
         expect(userFromDb.password).to.not.equal(clearTextPassword);
         expect(user.email).to.not.equal(mixedCaseEmail);
@@ -75,7 +75,7 @@ describe('users-api', () => {
         email: testUser.email,
         password: testUserPassword
       })
-      .then(function(authenticationResult) {
+      .then(authenticationResult => {
         expect(authenticationResult).to.equal(true);
         done();
       })
@@ -87,7 +87,7 @@ describe('users-api', () => {
     const query = { _id: testUser._id };
 
     fixture.find(query)
-      .then(function(foundUsers) {
+      .then(foundUsers => {
         expect(foundUsers[0]).to.be.defined;
         expect(foundUsers[0].id).to.be.defined;
         expect(foundUsers[0].id).to.equal(testUser._id);
@@ -106,7 +106,7 @@ describe('users-api', () => {
 
     // update the user
     fixture.update(testUser)
-      .then(function() {
+      .then(() => {
         const query = { _id: testUser._id };
 
         // fetch the user back from the DB

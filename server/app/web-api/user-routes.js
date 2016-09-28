@@ -10,7 +10,6 @@ const createRoutes = function(app) {
   // Create
   app.post(baseUrl, (req, res, next) => {
     usersApi.create(req.body)
-
       .then(newUser => {
         const token = jwt.sign(newUser, 'toDo: use cert');
 

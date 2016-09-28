@@ -1,18 +1,18 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var sinon = require('sinon');
-var boastErrors = require('boast-errors');
-var request = require('supertest');
+const rek = require('rekuire');
+const chai = require('chai');
+const sinon = require('sinon');
+const boastErrors = require('boast-errors');
+const request = require('supertest');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
 
-var runTests = function(resolve, reject, server) {
-  var baseUrl = '/api/users';
+const runTests = function(resolve, reject, server) {
+  const baseUrl = '/api/users';
 
-  var testUser = {
+  const testUser = {
     email: 'post-user-created-user@test.com',
     password: 'password-value',
     first: 'first-name-test-value'
@@ -24,7 +24,7 @@ var runTests = function(resolve, reject, server) {
     .expect('Content-Type', /json/)
     .expect(200)
     .end((err, res) => {
-      var responseBody = res.body;
+      const responseBody = res.body;
 
       if (err) {
         console.log(JSON.stringify(err));
@@ -36,7 +36,7 @@ var runTests = function(resolve, reject, server) {
     });
 };
 
-var createTestUserAndToken = function(server) {
+const createTestUserAndToken = function(server) {
   return new Promise((resolve, reject) => {
     runTests(resolve, reject, server);
   });

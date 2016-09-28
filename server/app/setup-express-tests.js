@@ -23,7 +23,7 @@ describe('setup-express', () => {
       assert.isDefined(fixture);
 
       fixture.initialize()
-        .then(function(app) {
+        .then(app => {
           expect(app.route).to.not.be.undefined;
           expect(app.use).to.not.be.undefined;
 

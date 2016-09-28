@@ -6,8 +6,6 @@ const Schema = mongoose.Schema;
 let isRegistered = mongoose.models.User; // if the model exists our flag initalizes true and the whole process is skipped
 let schemaDefinition;
 
-// associated doc
-const tweetSchema = rek('tweet').register();
 
 const register = function() {
   // check if our schema has already been registered

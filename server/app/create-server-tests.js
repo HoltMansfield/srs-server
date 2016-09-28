@@ -14,7 +14,7 @@ describe('Create Server', () => {
     assert.isDefined(fixture);
 
     fixture.createServerOnce()
-      .then(function(app) {
+      .then(app => {
         expect(app.locals.settings.port).to.equal('3000');
 
         done();

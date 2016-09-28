@@ -6,10 +6,8 @@ const rek = require('rekuire');
 const Tweet = mongoose.model('Tweet');
 
 const create = function(tweet) {
-  // create mongoose model
   const tweetModel = new Tweet(tweet);
 
-  // promise chain continues
   return tweetModel.save();
 };
 

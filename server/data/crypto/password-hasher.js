@@ -3,7 +3,7 @@ const Promise = require('bluebird');
 
 // toDo: npm module (google it or make it)
 const requireArguments = function(arguments) {
-  arguments.forEach(function(argument) {
+  arguments.forEach(argument => {
     // programming by contract
     if(!argument.value) throw Error('password-hasher.hash() requires ' +argument.name);
   });
@@ -34,7 +34,7 @@ const comparePassword = function(password, salt, hashedPasswordFromDb) {
                     { name: 'hashedPasswordFromDb', value: hashedPasswordFromDb } ]);
 
   return bcrypt.hash(password, salt)
-    .then(hashedPassword => hashedPasswordFromDb === hashedPassword);
+          .then(hashedPassword => hashedPasswordFromDb === hashedPassword);
 };
 
 module.exports = {

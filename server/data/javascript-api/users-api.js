@@ -1,9 +1,8 @@
 const Promise = require('bluebird');
 const rek = require('rekuire');
+const mongoose = require('mongoose');
 
 const hasher = rek('password-hasher');
-
-const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 const createUserInDb = function(createPasswordResult, user) {
@@ -11,10 +10,8 @@ const createUserInDb = function(createPasswordResult, user) {
   user.password = createPasswordResult.hashedPassword;
   user.salt = createPasswordResult.salt;
 
-  // create mongoose model
   let userModel = new User(user);
 
-  // promise chain continues
   return userModel.save();
 };
 

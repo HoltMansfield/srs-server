@@ -45,9 +45,9 @@ describe('password-hasher', () => {
       const clearTextPassword = 'mock-password';
 
       fixture.createPassword(clearTextPassword)
-        .then(function(createPasswordResult) {
+        .then(createPasswordResult => {
           fixture.comparePassword(clearTextPassword, createPasswordResult.salt, createPasswordResult.hashedPassword)
-            .then(function(comparePasswordResult) {
+            .then(comparePasswordResult => {
               expect(comparePasswordResult).to.equal(true);
 
               done();

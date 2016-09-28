@@ -15,9 +15,7 @@ describe('mongo-manager', () => {
   describe('connect', () => {
     it('should resolve promise when open callback fires', sinon.test(done => {
       fixture.connect()
-        .then(function(createPasswordResult) {
-          done();
-        })
+        .then(app => done())
         .catch(boastErrors.logToConsole);
     }));
   });

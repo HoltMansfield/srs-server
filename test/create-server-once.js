@@ -3,20 +3,20 @@
     this ensures we only create the server once
 */
 
-var Promise = require('bluebird');
-var rek = require('rekuire');
-var createServer = rek('create-server');
-var errorHandling  = rek('error-handling');
+const Promise = require('bluebird');
+const rek = require('rekuire');
+const createServer = rek('create-server');
+const errorHandling  = rek('error-handling');
 
-var server;
+let server;
 
-var captureServerInstance = function(serverInstance) {
+const captureServerInstance = function(serverInstance) {
   server = serverInstance;
 
   return serverInstance;
 };
 
-var doCreateServerOnce = function() {
+const doCreateServerOnce = function() {
   return createServer
           .createServer(server)
           .then(captureServerInstance)

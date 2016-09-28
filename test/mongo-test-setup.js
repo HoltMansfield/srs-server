@@ -1,9 +1,9 @@
-var Promise = require('bluebird');
-var rek = require('rekuire');
-var mongoManager = rek('mongo-manager');
+const Promise = require('bluebird');
+const rek = require('rekuire');
+const mongoManager = rek('mongo-manager');
 
 function clearDB(resolve, reject, mongoose) {
-  for (var i in mongoose.connection.collections) {
+  for (let i in mongoose.connection.collections) {
     mongoose.connection.collections[i].remove();
   }
 
@@ -13,7 +13,7 @@ function clearDB(resolve, reject, mongoose) {
 function connect(resolve, reject, mongoose) {
   // mongo manager connects to DB & reads in all models
   mongoManager.connect()
-   .then(function() {
+   .then(() => {
     clearDB(resolve, reject, mongoose);
   });
 }
@@ -33,13 +33,13 @@ function checkState(resolve, reject, mongoose) {
   }
 }
 
-var clearDb = function(mongoose) {
-  return new Promise(function(resolve, reject) {
+const clearDb = function(mongoose) {
+  return new Promise((resolve, reject) => {
       checkState(resolve, reject, mongoose);
   });
 };
 
-var disconnect = function(mongoose, done) {
+const disconnect = function(mongoose, done) {
   mongoManager.disconnect()
     .then(() => done());
 };

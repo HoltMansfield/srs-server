@@ -2,7 +2,7 @@ Supertest can be used in two ways.
 
 It can hit a URL or it can be handed an express app.
 
-var request = require('supertest')
+const request = require('supertest')
 
 request(app).post()
 request('http://localhost:3000').post()

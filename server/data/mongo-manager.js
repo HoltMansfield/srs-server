@@ -29,7 +29,7 @@ const initialize = function(app, resolve, reject) {
 };
 
 const connect = function(app) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     if(mongoose.connection.readyState) {
       // we are already connected
       resolve(app);
