@@ -1,17 +1,17 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var sinon = require('sinon');
-var boastErrors = require('boast-errors');
-var request = require('supertest');
-var mongoose = require('mongoose');
+const rek = require('rekuire');
+const chai = require('chai');
+const sinon = require('sinon');
+const boastErrors = require('boast-errors');
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
-var createServerOnce = rek('create-server-once');
-var mongoTestSetup = rek('mongo-test-setup');
-var supertestTestSetup = rek('supertest-test-setup');
+const createServerOnce = rek('create-server-once');
+const mongoTestSetup = rek('mongo-test-setup');
+const supertestTestSetup = rek('supertest-test-setup');
 
 
 describe('express-app', () => {
@@ -28,16 +28,16 @@ describe('express-app', () => {
   });
 });
 
-var runTests = function(server) {
+const runTests = function(server) {
   describe('tweets-routes', () => {
-    var baseUrl = '/api/tweets';
-    var tweets; // retain tweet data created in beforeEach
-    var users; // retain users for testing relationships
-    var jwt;  // jwt needed for hitting secured endpoints
-    var tweetsApi; // we can't require in the tweetsApi module until the mongoose model is registered
-    var usersApi; // we can't require in the usersApi module until the mongoose model is registered
-    var apiUser; // the authenticated user for testing secure endpoints
-    var clearTextPassword = 'clear-text-password-value'; // retain the users password to test logging in
+    const baseUrl = '/api/tweets';
+    let tweets; // retain tweet data created in beforeEach
+    let users; // retain users for testing relationships
+    let jwt;  // jwt needed for hitting secured endpoints
+    let tweetsApi; // we can't require in the tweetsApi module until the mongoose model is registered
+    let usersApi; // we can't require in the usersApi module until the mongoose model is registered
+    let apiUser; // the authenticated user for testing secure endpoints
+    const clearTextPassword = 'clear-text-password-value'; // retain the users password to test logging in
 
     beforeEach(done => {
       mongoTestSetup.clearDb(mongoose)
@@ -56,7 +56,7 @@ var runTests = function(server) {
         .catch(boastErrors.logToConsole);
     });
 
-    var createApiUser = function() {
+    const createApiUser = function() {
       // create a user for authenticating with API
       return supertestTestSetup.createTestUserAndToken(server)
         .then(userAndToken => {
@@ -72,13 +72,13 @@ var runTests = function(server) {
         });
     };
 
-    var createTestData = function() {
+    const createTestData = function() {
       return createTestTweet()
         .then(creatTestFollower);
     };
 
-    var createTestTweet = function() {
-      var testTweet = {
+    const createTestTweet = function() {
+      const testTweet = {
         tweetBody: 'Trump has the best tweets.',
         postedBy: users[0]._id
       };
@@ -86,13 +86,12 @@ var runTests = function(server) {
       return tweetsApi.create(testTweet)
               .then(newTweet => {
                 tweets.push(newTweet);
-
                 return newTweet;
               });
     };
 
-    var creatTestFollower = function() {
-      var testFollower = {
+    const creatTestFollower = function() {
+      const testFollower = {
         email: 'beforeEach-created-follower@test.com',
         password: 'testFollower',
         first: 'first-name-test-value',
@@ -105,7 +104,6 @@ var runTests = function(server) {
       return usersApi.create(testFollower)
               .then(newUser => {
                 users.push(newUser);
-
                 return newUser;
               });
     };
@@ -116,7 +114,7 @@ var runTests = function(server) {
 
     it('should fetch a tweet using a mongo query', done => {
       // this test verifies the tweet we created in the beforeEach
-      var query = { _id: tweets[0]._id };
+      const query = { _id: tweets[0]._id };
 
       request(server)
         .post(baseUrl +'/query')
@@ -125,7 +123,7 @@ var runTests = function(server) {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
-          var tweetFromServer = res.body[0];
+          const tweetFromServer = res.body[0];
 
           expect(tweetFromServer.postedBy).to.equal(users[0]._id);
           expect(tweets[0]._id.equals(tweetFromServer._id)).to.equal(true);
@@ -148,7 +146,7 @@ var runTests = function(server) {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
-          var tweetsFromServer = res.body;
+          const tweetsFromServer = res.body;
 
           expect(tweetsFromServer).to.be.defined;
           expect(tweetsFromServer.length).to.equal(1);

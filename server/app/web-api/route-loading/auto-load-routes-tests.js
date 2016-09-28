@@ -1,20 +1,20 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var sinon = require('sinon');
-var boastErrors = require('boast-errors');
+const rek = require('rekuire');
+const chai = require('chai');
+const sinon = require('sinon');
+const boastErrors = require('boast-errors');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
 
 // System Under Test
-var fixture = rek('auto-load-routes');
+const fixture = rek('auto-load-routes');
 
 
 describe('auto-load-routes', () => {
   it('reads in all routes in web-api folder', sinon.test(done => {
-    var mockApp = {
+    const mockApp = {
       post: function() {},
       put: function() {},
       get: function() {},
@@ -22,7 +22,7 @@ describe('auto-load-routes', () => {
       patch: function() {}
     };
 
-    var postSpy = sinon.spy(mockApp, 'post');
+    const postSpy = sinon.spy(mockApp, 'post');
 
     fixture.createRoutes(mockApp)
       .then(() => {

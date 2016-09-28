@@ -1,10 +1,10 @@
-var Promise = require('bluebird');
-var rek = require('rekuire');
-var fs = require('fs');
+const Promise = require('bluebird');
+const rek = require('rekuire');
+const fs = require('fs');
 
 
-var checkRoute = function(file) {
-  var shouldImportRoute = false;
+const checkRoute = function(file) {
+  let shouldImportRoute = false;
 
   // file is not null
   if(file
@@ -20,22 +20,20 @@ var checkRoute = function(file) {
   return shouldImportRoute;
 };
 
-var importRoutes = function(file, app) {
+const importRoutes = function(file, app) {
   if(checkRoute(file)) {
-      var moduleName = file.replace('.js','');
-      var routeModule = rek(moduleName);
+      let moduleName = file.replace('.js','');
+      let routeModule = rek(moduleName);
 
       routeModule.createRoutes(app);
   }
 };
 
-var createRoutes = function(app) {
-  return new Promise(function(resolve, reject) {
-    var srcpath = __dirname +'/..';
+const createRoutes = function(app) {
+  return new Promise((resolve, reject) => {
+    const srcpath = __dirname +'/..';
 
-    fs.readdirSync(srcpath).filter(function(file) {
-      importRoutes(file, app);
-    });
+    fs.readdirSync(srcpath).filter(file => importRoutes(file, app));
 
     resolve(app);
   });

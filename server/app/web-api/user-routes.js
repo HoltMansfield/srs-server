@@ -1,18 +1,18 @@
-var jwt = require('jsonwebtoken');
-var rek = require('rekuire');
+const jwt = require('jsonwebtoken');
+const rek = require('rekuire');
 
-var usersApi = rek('users-api');
-var errorHandling = rek('error-handling');
+const usersApi = rek('users-api');
+const errorHandling = rek('error-handling');
 
-var createRoutes = function(app) {
-  var baseUrl = '/api/users';
+const createRoutes = function(app) {
+  const baseUrl = '/api/users';
 
   // Create
   app.post(baseUrl, (req, res, next) => {
     usersApi.create(req.body)
 
       .then(newUser => {
-        var token = jwt.sign(newUser, 'toDo: use cert');
+        const token = jwt.sign(newUser, 'toDo: use cert');
 
         return res.json({
           user: newUser,

@@ -1,11 +1,11 @@
-var jwt = require('jsonwebtoken');
-var rek = require('rekuire');
+const jwt = require('jsonwebtoken');
+const rek = require('rekuire');
 
-var tweetsApi = rek('tweets-api');
-var errorHandling = rek('error-handling');
+const tweetsApi = rek('tweets-api');
+const errorHandling = rek('error-handling');
 
-var createRoutes = function(app) {
-  var baseUrl = '/api/tweets';
+const createRoutes = function(app) {
+  const baseUrl = '/api/tweets';
 
   // Create
   app.post(baseUrl, (req, res, next) => {

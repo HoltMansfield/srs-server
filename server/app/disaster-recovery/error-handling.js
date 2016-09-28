@@ -1,9 +1,9 @@
-var rek = require('rekuire');
+const rek = require('rekuire');
 
-var consoleMessages = rek('console-messages');
+const consoleMessages = rek('console-messages');
 
-var requestErrorHandler = function(err, req, res) {
-  var validationErrors = null;
+const requestErrorHandler = function(err, req, res) {
+  const validationErrors = null;
 
   if(err && err.errors) {
     validationErrors = err.errors;
@@ -28,7 +28,7 @@ var requestErrorHandler = function(err, req, res) {
   consoleMessages.error(err.message);
 };
 
-var errorHandler = function(err) {
+const errorHandler = function(err) {
   consoleMessages.error(err);
 };
 

@@ -1,17 +1,17 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var sinon = require('sinon');
-var boastErrors = require('boast-errors');
-var request = require('supertest');
-var mongoose = require('mongoose');
+const rek = require('rekuire');
+const chai = require('chai');
+const sinon = require('sinon');
+const boastErrors = require('boast-errors');
+const request = require('supertest');
+const mongoose = require('mongoose');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
-var createServerOnce = rek('create-server-once');
-var mongoTestSetup = rek('mongo-test-setup');
-var supertestTestSetup = rek('supertest-test-setup');
+const createServerOnce = rek('create-server-once');
+const mongoTestSetup = rek('mongo-test-setup');
+const supertestTestSetup = rek('supertest-test-setup');
 
 
 describe('express-app', () => {
@@ -28,14 +28,14 @@ describe('express-app', () => {
   });
 });
 
-var runTests = function(server) {
+const runTests = function(server) {
   describe('users-routes', () => {
-    var baseUrl = '/api/users';
-    var users; // retain user data created in beforeEach
-    var jwt;  // jwt needed for hitting secured endpoints
-    var usersApi; // we can't require in the usersApi module until the mongoose model is registered
-    var apiUser; // the authenticated user for testing secure endpoints
-    var clearTextPassword = 'clear-text-password-value'; // retain the users password to test logging in
+    const baseUrl = '/api/users';
+    let users; // retain user data created in beforeEach
+    let jwt;  // jwt needed for hitting secured endpoints
+    let usersApi; // we can't require in the usersApi module until the mongoose model is registered
+    let apiUser; // the authenticated user for testing secure endpoints
+    const clearTextPassword = 'clear-text-password-value'; // retain the users password to test logging in
 
     beforeEach(done => {
       mongoTestSetup.clearDb(mongoose)
@@ -59,8 +59,8 @@ var runTests = function(server) {
       mongoTestSetup.disconnect(mongoose, done);
     });
 
-    var createTestUser = function() {
-      var testUser = {
+    const createTestUser = function() {
+      const testUser = {
         email: 'beforeEach-created-user@test.com',
         password: clearTextPassword,
         first: 'first-name-test-value'
@@ -69,7 +69,7 @@ var runTests = function(server) {
       return usersApi.create(testUser);
     };
 
-    var createApiUser = function() {
+    const createApiUser = function() {
       // create a user for authenticating with API
       return supertestTestSetup.createTestUserAndToken(server)
         .then(userAndToken => {
@@ -82,7 +82,7 @@ var runTests = function(server) {
     };
 
     it('should fetch a user using a mongo query', done => {
-      var query = {
+      const query = {
           email: users[0].email.toLowerCase()
       };
 
@@ -93,7 +93,7 @@ var runTests = function(server) {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
-          var userFromServer = res.body[0];
+          const userFromServer = res.body[0];
 
           expect(userFromServer._id).to.equal(users[0].id);
 
@@ -106,7 +106,7 @@ var runTests = function(server) {
     });
 
     it('should update a user', done => {
-      var newFirstNameValue = 'update-first-name-value';;
+      const newFirstNameValue = 'update-first-name-value';;
       users[0].first = newFirstNameValue;
 
       request(server)
@@ -116,7 +116,7 @@ var runTests = function(server) {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
-          var userFromServer = res.body;
+          const userFromServer = res.body;
 
           expect(userFromServer.first).to.equal(newFirstNameValue);
 
@@ -129,7 +129,7 @@ var runTests = function(server) {
     });
 
     it('should delete a user', done => {
-      var query = {
+      const query = {
           email: users[0].email.toLowerCase()
       };
 
@@ -156,7 +156,7 @@ var runTests = function(server) {
     });
 
     it('should authenticate a user', done => {
-      var loginAttempt = {
+      const loginAttempt = {
           email: users[0].email.toLowerCase(),
           password: clearTextPassword,
       };
@@ -173,7 +173,7 @@ var runTests = function(server) {
             throw err;
           }
 
-          var responseValue = res.body;
+          const responseValue = res.body;
 
           expect(responseValue).to.equal(true);
           done();
@@ -181,8 +181,8 @@ var runTests = function(server) {
     });
 
     it('should update a users password', done => {
-      var updatedPassword = clearTextPassword +'updated';
-      var updatePasswordAttempt = {
+      const updatedPassword = clearTextPassword +'updated';
+      const updatePasswordAttempt = {
           _id: users[0]._id,
           password: updatedPassword,
           salt: users[0].salt
@@ -201,7 +201,7 @@ var runTests = function(server) {
             throw err;
           }
 
-          var updatedUser = res.body;
+          const updatedUser = res.body;
 
           expect(updatedUser).to.be.defined;
           expect(updatedUser.password).to.be.defined;
