@@ -2,7 +2,7 @@ const rek = require('rekuire');
 
 const consoleMessages = rek('console-messages');
 
-const requestErrorHandler = function(err, req, res) {
+const requestErrorHandler = function(err, req, res, next) {
   const validationErrors = null;
 
   if(err && err.errors) {
