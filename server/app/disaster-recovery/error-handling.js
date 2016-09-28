@@ -5,6 +5,10 @@ const consoleMessages = rek('console-messages');
 const requestErrorHandler = function(err, req, res, next) {
   const validationErrors = null;
 
+  /*
+      MongoDB tacks on errors property containing validation errors
+      We map it to a property called validationErrors below
+  */
   if(err && err.errors) {
     validationErrors = err.errors;
   }
@@ -19,11 +23,6 @@ const requestErrorHandler = function(err, req, res, next) {
       stack: err.stack,
       validationErrors: validationErrors
   });
-
-  if(!err.message || err.message.length === 0) {
-    consoleMessages.error('EMTPY ERROR FOUND');
-    consoleMessages.error('Need to investigate and refactor');
-  }
 
   consoleMessages.error(err.message);
 };

@@ -40,5 +40,6 @@ const createRoutes = function(app) {
 };
 
 module.exports = {
+  // read through all the files in /server/app/web-api and load their routes
   createRoutes: createRoutes
 };
