@@ -26,9 +26,6 @@ var register = function() {
 
         // the users this user is following
         following: { type: [Schema.ObjectId], ref: 'users' },
-
-        // the last 25 tweets from this user
-        last25Tweets: [tweetSchema]
     });
 
     // register the schema with mongoose to 'create' a model
