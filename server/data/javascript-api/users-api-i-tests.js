@@ -1,24 +1,24 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var sinon = require('sinon');
-var mongoose = require('mongoose');
-var boastErrors = require('boast-errors');
+const rek = require('rekuire');
+const chai = require('chai');
+const sinon = require('sinon');
+const mongoose = require('mongoose');
+const boastErrors = require('boast-errors');
 
-var mongoTestSetup = rek('mongo-test-setup');
+const mongoTestSetup = rek('mongo-test-setup');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
 
 // System Under Test
-var fixture; // require this after the Model is registered
+let fixture; // require this after the Model is registered
 
 
 describe('users-api', () => {
-  var testUser; var testUserPassword = 'test-user-password';
+  let testUser; let testUserPassword = 'test-user-password';
 
-  var createTestUser = function() {
+  const createTestUser = function() {
     // now that our mongoose schemas are registered
     fixture = rek('users-api');
 
@@ -50,10 +50,10 @@ describe('users-api', () => {
   });
 
   it('createUser returns user with ID', done => {
-    var clearTextPassword = 'mama';
-    var mixedCaseEmail = 'tesT@tesT.com';
+    const clearTextPassword = 'mama';
+    const mixedCaseEmail = 'tesT@tesT.com';
 
-    var user = {
+    const user = {
       email: mixedCaseEmail,
       password: clearTextPassword
     };
@@ -84,7 +84,7 @@ describe('users-api', () => {
 
   it('findUser returns user for valid query', done => {
     // our beforeEach creates a test user we can query against
-    var query = { _id: testUser._id };
+    const query = { _id: testUser._id };
 
     fixture.find(query)
       .then(function(foundUsers) {
@@ -98,8 +98,8 @@ describe('users-api', () => {
 
   it('updates any fields on the user', done => {
     // our beforeEach creates a test user we can query against
-    var updatedName = testUser.first +'-updated-value';
-    var udpatedPassword = 'new-password-value';
+    const updatedName = testUser.first +'-updated-value';
+    const udpatedPassword = 'new-password-value';
 
     testUser.first = updatedName;
     testUser.password = udpatedPassword;
@@ -107,7 +107,7 @@ describe('users-api', () => {
     // update the user
     fixture.update(testUser)
       .then(function() {
-        var query = { _id: testUser._id };
+        const query = { _id: testUser._id };
 
         // fetch the user back from the DB
         fixture.find(query)
@@ -124,14 +124,14 @@ describe('users-api', () => {
 
   it('updates JUST the password field on the user', done => {
     // our beforeEach creates a test user we can query against
-    var udpatedPassword = 'new-password-value';
+    const udpatedPassword = 'new-password-value';
 
     testUser.password = udpatedPassword;
 
     // update the user
     fixture.updatePassword(testUser)
-      .then(function() {
-        var query = { _id: testUser.id };
+      .then(() => {
+        const query = { _id: testUser.id };
 
         // fetch the user back from the DB
         fixture.find(query)
@@ -147,10 +147,10 @@ describe('users-api', () => {
 
   it('deletes the user', done => {
     // our beforeEach creates a test user we can query against
-    var query = { _id: testUser.id };
+    const query = { _id: testUser.id };
 
     fixture.delete(query)
-      .then(function() {
+      .then(() => {
 
         // fetch the user back from the DB
         fixture.find(query)

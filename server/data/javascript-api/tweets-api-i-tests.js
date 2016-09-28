@@ -1,27 +1,27 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var sinon = require('sinon');
-var mongoose = require('mongoose');
-var boastErrors = require('boast-errors');
+const rek = require('rekuire');
+const chai = require('chai');
+const sinon = require('sinon');
+const mongoose = require('mongoose');
+const boastErrors = require('boast-errors');
 
-var mongoTestSetup = rek('mongo-test-setup');
+const mongoTestSetup = rek('mongo-test-setup');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
 
 // System Under Test
-var fixture; // require this after the schema is registered
-var usersApi; // require this after the schema is registered
+let fixture; // require this after the schema is registered
+let usersApi; // require this after the schema is registered
 
 
 describe('tweets-api', () => {
-  var tweets;
-  var users;
+  let tweets;
+  let users;
 
-  var createTestTweet = function() {
-    var testTweet = {
+  const createTestTweet = function() {
+    const testTweet = {
       tweetBody: 'Trump loses by largest margin in US History',
       postedBy: users[0]._id
     };
@@ -29,14 +29,14 @@ describe('tweets-api', () => {
     return fixture.create(testTweet);
   };
 
-  var createTestUsers = function() {
-    var testUser = {
+  const createTestUsers = function() {
+    const testUser = {
       email: 'beforeEach-created-user@test.com',
       password: 'testUser',
       first: 'first-name-test-value'
     };
 
-    var testFollower = {
+    const testFollower = {
       email: 'beforeEach-created-follower@test.com',
       password: 'testFollower',
       first: 'first-name-test-value',
@@ -58,7 +58,7 @@ describe('tweets-api', () => {
       });
   };
 
-  var createTestData = function() {
+  const createTestData = function() {
     return createTestUsers()
       .then(createTestTweet);
   };
@@ -81,9 +81,9 @@ describe('tweets-api', () => {
                     });
   });
 
-  it('creates ands queries a tweet', function(done) {
+  it('creates ands queries a tweet', done => {
     // this test verifies the tweet we created in the beforeEach
-    var query = { _id: tweets[0]._id };
+    const query = { _id: tweets[0]._id };
 
     fixture.find(query)
       .then(results => {
@@ -96,7 +96,7 @@ describe('tweets-api', () => {
     .catch(boastErrors.logToConsole);
   });
 
-  it('show a given user the tweets from the users they follow', function(done) {
+  it('show a given user the tweets from the users they follow', done => {
     // get the tweet created in beforeEach
 
     fixture.getTweetsForUser(users[1])
@@ -108,7 +108,7 @@ describe('tweets-api', () => {
       });
   });
 
-  it('show a given user their followers', function(done) {
+  it('show a given user their followers', done => {
     // get the followers for testUser create in beforeEach
 
     /*
@@ -117,7 +117,7 @@ describe('tweets-api', () => {
     */
 
     // get all users that follow the testUser
-    var query = { following: users[0]._id };
+    const query = { following: users[0]._id };
 
     usersApi.find(query)
       .then(followersFromDb => {

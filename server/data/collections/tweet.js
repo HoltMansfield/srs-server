@@ -1,12 +1,12 @@
 /* all the models in the collections folder get processed for registration by collection-manager.js */
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var isRegistered = mongoose.models.Tweet; // if the User model exists our flag initalizes true and the whole process is skipped
-var schemaDefinition;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+let isRegistered = mongoose.models.Tweet; // if the User model exists our flag initalizes true and the whole process is skipped
+let schemaDefinition;
 
 
-var register = function() {
+const register = function() {
   // check if our schema has already been registered
   if(!isRegistered) {
 

@@ -1,15 +1,15 @@
-var bcrypt = require('bcrypt-as-promised');
-var Promise = require('bluebird');
+const bcrypt = require('bcrypt-as-promised');
+const Promise = require('bluebird');
 
 // toDo: npm module (google it or make it)
-var requireArguments = function(arguments) {
+const requireArguments = function(arguments) {
   arguments.forEach(function(argument) {
     // programming by contract
     if(!argument.value) throw Error('password-hasher.hash() requires ' +argument.name);
   });
 };
 
-var hashPassword = function(salt, password) {
+const hashPassword = function(salt, password) {
   // use that salt to hash the password
   return bcrypt.hash(password, salt)
           .then(hashedPassword => {
@@ -21,20 +21,20 @@ var hashPassword = function(salt, password) {
           });
 };
 
-var createPassword = function(password) {
+const createPassword = function(password) {
   requireArguments([{ name: 'password', value: password }]);
 
   return bcrypt.genSalt()
           .then(salt => hashPassword(salt, password));
 };
 
-var comparePassword = function(password, salt, hashedPasswordFromDb) {
-  requireArguments([{ name: 'password', value: password }, { name: 'salt', value: salt }, { name: 'hashedPasswordFromDb', value: hashedPasswordFromDb } ]);
+const comparePassword = function(password, salt, hashedPasswordFromDb) {
+  requireArguments([{ name: 'password', value: password },
+                    { name: 'salt', value: salt },
+                    { name: 'hashedPasswordFromDb', value: hashedPasswordFromDb } ]);
 
   return bcrypt.hash(password, salt)
-    .then(function(hashedPassword) {
-      return hashedPasswordFromDb === hashedPassword;
-    });
+    .then(hashedPassword => hashedPasswordFromDb === hashedPassword);
 };
 
 module.exports = {

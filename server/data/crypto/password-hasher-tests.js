@@ -1,30 +1,29 @@
 // Test dependencies
-var rek = require('rekuire');
-var chai = require('chai');
-var sinon = require('sinon');
-var boastErrors = require('boast-errors');
-var bcrypt = require('bcrypt-as-promised');
+const rek = require('rekuire');
+const chai = require('chai');
+const sinon = require('sinon');
+const boastErrors = require('boast-errors');
 
-var expect = chai.expect;
-var assert = chai.assert;
+const expect = chai.expect;
+const assert = chai.assert;
 
 // System Under Test
-var fixture = rek('password-hasher');
+const fixture = rek('password-hasher');
 
 // require so we can stub/spy
-var bcrypt = require('bcrypt-as-promised');
+const bcrypt = require('bcrypt-as-promised');
 
 describe('password-hasher', () => {
   describe('createPassword', () => {
     it('should call bcrypt to create a salt and to hash the users password', sinon.test(function(done) {
-      var bcryptHashSpy = this.spy(bcrypt, 'hash');
-      var bcryptSaltSpy = this.spy(bcrypt, 'genSalt');
+      const bcryptHashSpy = this.spy(bcrypt, 'hash');
+      const bcryptSaltSpy = this.spy(bcrypt, 'genSalt');
 
       assert.isDefined(fixture);
-      var password = 'clear-text';
+      const password = 'clear-text';
 
       fixture.createPassword(password)
-        .then(function(createPasswordResult) {
+        .then(createPasswordResult => {
           assert.isDefined(createPasswordResult.salt);
           assert.isDefined(createPasswordResult.hashedPassword);
 
@@ -42,8 +41,8 @@ describe('password-hasher', () => {
   });
 
   describe('comparePassword', () => {
-    it('should return true when the user enters a valid password', function(done) {
-      var clearTextPassword = 'mock-password';
+    it('should return true when the user enters a valid password', done => {
+      const clearTextPassword = 'mock-password';
 
       fixture.createPassword(clearTextPassword)
         .then(function(createPasswordResult) {
@@ -59,12 +58,12 @@ describe('password-hasher', () => {
     });
 
     it('should return FALSE when the user enters an INVALID password', done => {
-      var clearTextPassword = 'mock-password';
+      const clearTextPassword = 'mock-password';
 
       fixture.createPassword(clearTextPassword)
-        .then(function(createPasswordResult) {
+        .then(createPasswordResult => {
           fixture.comparePassword('invalid-password-attempt', createPasswordResult.salt, createPasswordResult.hashedPassword)
-            .then(function(comparePasswordResult) {
+            .then(comparePasswordResult => {
               expect(comparePasswordResult).to.equal(false);
 
               done();
@@ -83,13 +82,13 @@ describe('password-hasher', () => {
 
   describe('hashPassword', () => {
     it('should call bcrypt to hash the users password with an existing salt', sinon.test(function(done) {
-      var bcryptHashSpy = this.spy(bcrypt, 'hash');
-      var password = 'clear-text';
+      const bcryptHashSpy = this.spy(bcrypt, 'hash');
+      const password = 'clear-text';
 
       bcrypt.genSalt()
               .then(salt => {
                 fixture.hashPassword(salt, password)
-                  .then(function(hashedPassword) {
+                  .then(hashedPassword => {
                     assert.isDefined(hashedPassword);
                     sinon.assert.callCount(bcryptHashSpy, 1);
 
