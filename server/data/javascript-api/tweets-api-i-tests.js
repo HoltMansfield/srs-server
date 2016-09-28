@@ -99,7 +99,7 @@ describe('tweets-api', () => {
   it('show a given user the tweets from the users they follow', function(done) {
     // get the tweet created in beforeEach
 
-    fixture.getTweetsForUser(users[0])
+    fixture.getTweetsForUser(users[1])
       .then(tweetsFromDb => {
         expect(tweetsFromDb).to.be.defined;
         expect(tweetsFromDb.length).to.equal(1);

@@ -17,7 +17,7 @@ var getTweetsForUser = function(user) {
   var userIds = user.following;
   var query = { postedBy: { $in: userIds } };
 
-  return Tweet.find();
+  return Tweet.find(query);
 };
 
 var find = function(query) {

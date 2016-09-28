@@ -1,6 +1,8 @@
 // Test dependencies
 var rek = require('rekuire');
 var chai = require('chai');
+var boastErrors = require('boast-errors');
+
 var expect = chai.expect;
 var assert = chai.assert;
 
@@ -8,13 +10,6 @@ var assert = chai.assert;
 var fixture = rek('create-server-once');
 
 describe('Create Server', () => {
-  var handleError = function(error) {
-    console.log('HANDLE ERROR:');
-    console.log(error);
-
-    throw error;
-  };
-
   it('should have the following configuration', done => {
     assert.isDefined(fixture);
 
@@ -24,6 +19,6 @@ describe('Create Server', () => {
 
         done();
       })
-      .catch(handleError);
+      .catch(boastErrors.logToConsole);
   });
 });

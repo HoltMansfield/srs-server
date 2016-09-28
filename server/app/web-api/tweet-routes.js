@@ -21,6 +21,13 @@ var createRoutes = function(app) {
       .catch((err) => errorHandling.requestErrorHandler(err, req, res));
   });
 
+  // Find for user
+  app.post(baseUrl +'/query-for-user', (req, res, next) => {
+    tweetsApi.getTweetsForUser(req.body)
+      .then(results => res.json(results))
+      .catch((err) => errorHandling.requestErrorHandler(err, req, res));
+  });
+
 };
 
 module.exports = {
