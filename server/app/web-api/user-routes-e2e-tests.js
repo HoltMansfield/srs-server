@@ -133,7 +133,6 @@ const runTests = function(server) {
           email: users[0].email.toLowerCase()
       };
 
-      // delete the user
       request(server)
         .delete(baseUrl)
         .set('Authorization', 'Bearer ' +jwt)
@@ -161,7 +160,6 @@ const runTests = function(server) {
           password: clearTextPassword,
       };
 
-      // authenticate the user
       request(server)
         .post(baseUrl +'/authenticate')
         .send(loginAttempt)
@@ -188,7 +186,6 @@ const runTests = function(server) {
           salt: users[0].salt
       };
 
-      // authenticate the user
       request(server)
         .post(baseUrl +'/update-password')
         .set('Authorization', 'Bearer ' +jwt)

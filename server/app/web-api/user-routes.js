@@ -4,6 +4,7 @@ const rek = require('rekuire');
 const usersApi = rek('users-api');
 const errorHandling = rek('error-handling');
 
+
 const createRoutes = function(app) {
   const baseUrl = '/api/users';
 

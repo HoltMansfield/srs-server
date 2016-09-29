@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 
-const Schema       = mongoose.Schema;
+const Schema = mongoose.Schema;
 let collectionsImported = false;
 
 const createCollection = function(file) {
