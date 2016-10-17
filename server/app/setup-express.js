@@ -55,7 +55,7 @@ const postRoutesInitalization = function(app) {
 // The actual http listener
 const listen = function(app) {
   return new Promise((resolve, reject) => {
-    // default to port 300
+    // default to port 3000
     process.env.PORT = process.env.PORT || 3000;
 
     // default to the development environment
