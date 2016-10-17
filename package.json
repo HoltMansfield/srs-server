@@ -7,7 +7,7 @@
     "test": "mocha 'server/**/*tests.js' --require test/mocha-prepare --reporter spec",
     "test-watch": "mocha 'server/**/*tests.js' --require test/mocha-prepare --reporter spec --watch",
     "test-debug": "mocha 'server/**/*tests.js' --debug-brk --require test/mocha-prepare --reporter spec",
-    "start": "node ./server/app/start-server.js",
+    "serve": "node ./server/app/start-server.js",
     "mon": "nodemon /server/app/start-server.js",
     "d": "node-debug ./server/app/start-server.js",
     "m": "mocha 'server/data/crypto/password-hasher-tests.js' --require test/mocha-prepare --reporter spec",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HoltMansfield/symbilitweet"
+    "url": "git+https://github.com/HoltMansfield/srs-server"
   },
   "author": "Holt Mansfield <holt.mansfield@gmail.com> (gmail.com)",
   "dependencies": {
